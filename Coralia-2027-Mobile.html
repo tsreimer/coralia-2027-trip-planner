@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Coralia 2027 · Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --text: #1A1A18;
+    --muted: #6B6B66;
+    --border: #E2DFD8;
+    --accent: #2D5BE3;
+    --gold: #C4920A;
+    --green: #14785A;
+    --red: #A32D2D;
+    --coral: #1E88B4;
+    --nav-h: 68px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: calc(var(--nav-h) + var(--safe-bottom));
+    padding-top: var(--safe-top);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--text);
+    color: white;
+    padding: 28px 20px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,.018) 30px, rgba(255,255,255,.018) 60px);
+  }
+  .hero-eyebrow {
+    font-size: 10px; font-weight: 500; letter-spacing: .2em;
+    text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 10px; position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700; line-height: 1.15; margin-bottom: 6px; position: relative;
+  }
+  .hero h1 em { font-style: italic; color: #B8C8FF; }
+  .hero-sub { font-size: 12px; color: rgba(255,255,255,.45); margin-bottom: 18px; position: relative; }
+  .hero-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; position: relative; }
+  .hchip {
+    background: rgba(255,255,255,.1); border: 0.5px solid rgba(255,255,255,.2);
+    border-radius: 100px; padding: 4px 11px; font-size: 11px; color: rgba(255,255,255,.75);
+  }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-top: 1px solid rgba(0,0,0,.09);
+    display: flex; z-index: 500;
+    padding-bottom: var(--safe-bottom);
+    height: calc(var(--nav-h) + var(--safe-bottom));
+  }
+  .nav-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 3px;
+    padding: 8px 4px; background: none; border: none; cursor: pointer;
+    color: var(--muted); transition: color .15s;
+    font-family: 'DM Sans', sans-serif; min-height: 44px;
+  }
+  .nav-btn.active { color: var(--accent); }
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: 10px; font-weight: 500; letter-spacing: .02em; }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── SECTION HEADER ── */
+  .section-hero {
+    padding: 22px 18px 18px; text-align: center;
+  }
+  .section-eyebrow {
+    font-size: 10px; font-weight: 500; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: 22px;
+    font-weight: 700; line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface); border-radius: 16px;
+    border: 1px solid var(--border); margin: 0 14px 12px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 16px 10px; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .card-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .card-title { font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .card-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .card-body { padding: 0 16px 14px; }
+  .card-divider { height: 1px; background: var(--border); margin: 0 16px; }
+
+  /* ── TAGS ── */
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 9px; border-radius: 100px; letter-spacing: .04em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .tag-flight { background: #EEF3FF; color: var(--accent); }
+  .tag-seoul { background: #EEF3FF; color: var(--accent); }
+  .tag-bali { background: #FFF0E0; color: #B05A00; }
+  .tag-lbj { background: #E8F8F0; color: var(--green); }
+  .tag-coralia { background: #E8F4FB; color: var(--coral); }
+  .tag-confirmed { background: #E8F8F0; color: var(--green); }
+  .tag-pending { background: #FFF9E6; color: #7A5C00; }
+  .tag-urgent { background: #FEF2F2; color: var(--red); }
+
+  /* ── STATUS PILL ── */
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 500; padding: 4px 10px;
+    border-radius: 100px; margin-top: 8px;
+  }
+  .pill-confirmed { background: #E8F8F0; color: var(--green); }
+  .pill-pending { background: #FFF9E6; color: #7A5C00; }
+  .pill-urgent { background: #FEF2F2; color: var(--red); }
+
+  /* ── DETAIL ROWS ── */
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid var(--border); gap: 12px;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label { font-size: 12px; color: var(--muted); flex-shrink: 0; width: 100px; }
+  .detail-value { font-size: 12px; font-weight: 500; text-align: right; line-height: 1.4; }
+
+  /* ── PHASE HEADER ── */
+  .phase-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px 10px;
+  }
+  .phase-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .phase-title { font-size: 13px; font-weight: 600; }
+  .phase-dates { font-size: 11px; color: var(--muted); margin-left: auto; }
+
+  /* ── DAY ENTRY ── */
+  .day-entry {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 10px;
+    overflow: hidden;
+  }
+  .day-label-row {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  }
+  .day-cal {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--bg); border-radius: 10px; padding: 6px 10px;
+    min-width: 44px; flex-shrink: 0;
+  }
+  .day-dow { font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .day-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1; }
+  .day-mon { font-size: 9px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 1px; }
+  .day-content { flex: 1; min-width: 0; }
+  .day-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .day-meta { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+  .day-body { padding: 0 14px 12px; }
+  .day-detail { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
+  .cost-row { font-size: 12px; font-weight: 600; color: var(--text); }
+  .cost-note { font-size: 11px; color: var(--muted); font-weight: 400; }
+
+  /* ── SPAN BLOCK (multi-night) ── */
+  .span-block {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 10px; overflow: hidden;
+  }
+  .span-header {
+    display: flex; align-items: stretch; border-bottom: 1px solid var(--border);
+  }
+  .span-nights-col {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 12px 14px; min-width: 60px; flex-shrink: 0; border-right: 1px solid var(--border);
+  }
+  .span-n { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
+  .span-nlbl { font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .span-range { font-size: 9px; color: var(--muted); margin-top: 2px; }
+  .span-body { padding: 12px 14px; flex: 1; }
+  .span-highlights { padding: 12px 14px; }
+  .span-highlights li {
+    font-size: 12px; color: var(--muted); line-height: 1.6;
+    padding: 4px 0; border-bottom: 1px solid var(--border); list-style: none;
+    padding-left: 16px; position: relative;
+  }
+  .span-highlights li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+  .span-highlights li:last-child { border-bottom: none; }
+  .span-highlights li strong { color: var(--text); }
+
+  /* ── FLIGHT BUDGET TABLE ── */
+  .budget-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .budget-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 380px; }
+  .budget-table th {
+    background: var(--bg); padding: 8px 10px; text-align: left;
+    font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .budget-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table tfoot td {
+    background: var(--bg); font-weight: 600; font-size: 12px; border-top: 2px solid var(--border);
+  }
+  .route-name { font-weight: 500; }
+  .route-date { font-size: 10px; color: var(--muted); display: block; }
+  .cost-hi { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--accent); }
+
+  /* ── FLIGHT OPTION CARDS ── */
+  .flight-option {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 10px; padding: 14px;
+  }
+  .flight-option.priority { border-color: var(--accent); border-width: 2px; }
+  .fo-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .fo-name { font-size: 14px; font-weight: 600; }
+  .fo-rank { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; }
+  .fo-p1 { background: var(--accent); color: white; }
+  .fo-p2 { background: var(--bg); color: var(--muted); }
+  .fo-detail { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+  .fo-cost { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* ── HOTEL CARDS ── */
+  .hotel-card {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 12px; overflow: hidden;
+  }
+  .hotel-card.selected { border-color: var(--accent); border-width: 2px; }
+  .hotel-img {
+    height: 100px; display: flex; align-items: center; justify-content: center;
+    font-size: 36px; position: relative; overflow: hidden;
+  }
+  .hotel-img-bali { background: linear-gradient(135deg, #0A4A6E 0%, #1A7AAA 100%); }
+  .hotel-img-ayana { background: linear-gradient(135deg, #0B2535 0%, #1A4A6E 100%); }
+  .hotel-img-taak { background: linear-gradient(135deg, #1A2820 0%, #2D5A3A 100%); }
+  .hotel-img-plat { background: linear-gradient(135deg, #1A0A2E 0%, #3D1A5A 100%); }
+  .hotel-img-sud { background: linear-gradient(135deg, #0F1F1A 0%, #1A3A30 100%); }
+  .hotel-selected-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--accent); color: white;
+    font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 100px;
+    letter-spacing: .04em;
+  }
+  .hotel-rank-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: rgba(0,0,0,.4); color: white;
+    font-size: 11px; font-weight: 700; width: 26px; height: 26px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .hotel-body { padding: 14px; }
+  .hotel-brand { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .hotel-name { font-size: 16px; font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+  .hotel-location { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .hotel-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .hotel-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .htag {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 100px; font-size: 11px; padding: 3px 9px; color: var(--text);
+  }
+  .hotel-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .hm-item { background: var(--bg); border-radius: 9px; padding: 8px 10px; }
+  .hm-label { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+  .hm-value { font-size: 13px; font-weight: 600; }
+  .hm-value.price { color: var(--accent); font-family: 'Playfair Display', serif; }
+  .hotel-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-primary {
+    background: var(--accent); color: white; border: none; border-radius: 10px;
+    padding: 11px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; text-align: center; text-decoration: none; display: block; min-height: 44px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-outline {
+    background: none; color: var(--accent); border: 1.5px solid var(--accent);
+    border-radius: 10px; padding: 11px; font-size: 13px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif; cursor: pointer; text-align: center;
+    text-decoration: none; display: flex; align-items: center; justify-content: center;
+    min-height: 44px;
+  }
+
+  /* ── DEADLINE CARDS ── */
+  .deadline-card {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 10px; padding: 14px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .deadline-card.urgent { border-color: #E87070; border-left: 4px solid var(--red); }
+  .deadline-card.high { border-left: 4px solid var(--gold); }
+  .deadline-card.normal { border-left: 4px solid var(--accent); }
+  .deadline-card.done { border-left: 4px solid var(--green); opacity: .7; }
+  .dl-date-col { min-width: 52px; flex-shrink: 0; text-align: center; }
+  .dl-month { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .dl-day { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1; }
+  .dl-year { font-size: 9px; color: var(--muted); }
+  .dl-body { flex: 1; }
+  .dl-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .dl-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .dl-amount { font-size: 13px; font-weight: 700; color: var(--red); margin-top: 4px; }
+  .dl-amount.green { color: var(--green); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    margin: 4px 14px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-divider-label {
+    font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); flex-shrink: 0;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── SEOUL SECTION ── */
+  .info-card {
+    background: var(--surface); border-radius: 14px;
+    border: 1px solid var(--border); margin: 0 14px 10px; padding: 14px;
+  }
+  .info-card-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 7px; }
+  .info-card-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .info-card-body li { padding: 5px 0; border-bottom: 1px solid var(--border); list-style: none; padding-left: 16px; position: relative; }
+  .info-card-body li::before { content: '·'; position: absolute; left: 4px; }
+  .info-card-body li:last-child { border-bottom: none; }
+  .info-card-body li strong { color: var(--text); }
+
+  /* ── BOOKING WINDOW BANNER ── */
+  .booking-banner {
+    background: linear-gradient(135deg, var(--accent) 0%, #1A3DB8 100%);
+    color: white; border-radius: 14px; margin: 0 14px 12px; padding: 16px;
+  }
+  .bb-eyebrow { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-bottom: 4px; }
+  .bb-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .bb-sub { font-size: 12px; opacity: .8; line-height: 1.5; }
+
+  /* ── CORALIA BOOKING BOX ── */
+  .booking-box {
+    background: linear-gradient(135deg, #0A1F3C 0%, #163D60 100%);
+    color: white; border-radius: 14px; margin: 0 14px 12px; padding: 16px;
+  }
+  .booking-box .bb-eyebrow { opacity: .6; }
+
+  /* ── NOTE ── */
+  .note {
+    background: #F0F7FF; border: 1px solid #C8DDF8; border-radius: 12px;
+    margin: 0 14px 12px; padding: 12px 14px;
+    font-size: 12px; color: #1A3A6E; line-height: 1.6;
+  }
+
+  /* ── SCROLLABLE SOURCE NOTE ── */
+  .source-note {
+    font-size: 11px; color: var(--muted); line-height: 1.6;
+    padding: 10px 14px 4px; text-align: center;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--surface); border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); display: flex; margin-bottom: 14px;
+  }
+  .stat-item { flex: 1; text-align: center; padding: 14px 6px; border-right: 1px solid var(--border); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1; }
+  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+  /* ── FOOTER ── */
+  .panel-footer {
+    text-align: center; font-size: 11px; color: var(--muted);
+    padding: 12px 18px 20px; line-height: 1.6;
+  }
+
+  /* ── ACCORDIONS ── */
+  .accordion-trigger {
+    width: 100%; background: none; border: none; text-align: left;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 14px; font-family: 'DM Sans', sans-serif; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: var(--text);
+  }
+  .accordion-arrow { font-size: 12px; color: var(--muted); transition: transform .2s; }
+  .accordion-arrow.open { transform: rotate(180deg); }
+  .accordion-content { display: none; }
+  .accordion-content.open { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Todd &amp; Mai Do Reimer</div>
+  <h1>Coralia 2027 <em>Trip Planner</em></h1>
+  <div class="hero-sub">Komodo &amp; Sumbawa · July 23 – August 9, 2027</div>
+  <div class="hero-chips">
+    <span class="hchip">Invoice #6075</span>
+    <span class="hchip">Master Cabin</span>
+    <span class="hchip">Balance due May 1, 2027</span>
+    <span class="hchip">$7,948.88 remaining</span>
+  </div>
+</div>
+
+<!-- ═══════════ PANEL: ITINERARY ═══════════ -->
+<div class="panel active" id="panel-itin">
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num" style="color:#2D5BE3">5</div>
+      <div class="stat-lbl">Seoul</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="color:#B05A00">1</div>
+      <div class="stat-lbl">Bali</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="color:#14785A">1</div>
+      <div class="stat-lbl">Labuan Bajo</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="color:#1E88B4">9</div>
+      <div class="stat-lbl">Liveaboard</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="color:#6B6B66">19</div>
+      <div class="stat-lbl">Days Total</div>
+    </div>
+  </div>
+
+  <!-- Phase 1: Outbound -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#888"></div>
+    <div class="phase-title">Outbound Flight</div>
+    <div class="phase-dates">Jul 23</div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Fri</div>
+        <div class="day-num">23</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-flight">✈ Flight</span>
+        <div class="day-title">LAX → Seoul Incheon (ICN)</div>
+        <div class="day-meta">Korean Air / Asiana · Business · ~13.5 hrs</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Depart Los Angeles, arrive Seoul the following morning (Jul 24 local time).</div>
+      <div class="cost-row">💺 ~$3,500–$5,000 <span class="cost-note">/ person</span></div>
+      <span class="status-pill pill-pending">⏳ Book Aug–Sep 2026 (miles) · Jan–Mar 2027 (cash)</span>
+    </div>
+  </div>
+
+  <!-- Phase 2: Seoul -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#2D5BE3"></div>
+    <div class="phase-title">🇰🇷 Seoul Stopover</div>
+    <div class="phase-dates">Jul 23–28 · 5 Nights</div>
+  </div>
+
+  <div class="note">✦ Staying at <strong>Four Seasons Hotel Seoul</strong> — Gwanghwamun, walking distance to Gyeongbokgung Palace. Reserve early — peak summer season.</div>
+
+  <div class="span-block">
+    <div class="span-header">
+      <div class="span-nights-col" style="background:#EEF3FF; border-right: 1px solid var(--border);">
+        <div class="span-n" style="color:#2D5BE3">5</div>
+        <div class="span-nlbl">Nights</div>
+        <div class="span-range">Jul 23–28</div>
+      </div>
+      <div class="span-body">
+        <span class="tag tag-seoul">🇰🇷 Seoul</span>
+        <div class="day-title">Four Seasons Hotel Seoul</div>
+        <div class="day-meta">97 Saemunan-ro, Jongno-gu · Gyeongbokgung Palace (5 min)</div>
+        <span class="status-pill pill-pending">⏳ Book hotel — peak summer, reserve early</span>
+      </div>
+    </div>
+    <ul class="span-highlights">
+      <li><strong>Day 1–2:</strong> Gyeongbokgung Palace, Bukchon Hanok Village, Insadong, Changdeokgung &amp; Secret Garden</li>
+      <li><strong>Day 3:</strong> DMZ &amp; JSA (Joint Security Area) day trip option</li>
+      <li><strong>Day 4:</strong> Hongdae, Mapo — street food, nightlife, art</li>
+      <li><strong>Day 5:</strong> Myeongdong shopping, N Seoul Tower, Gangnam</li>
+      <li><strong>Dining:</strong> Use CatchTable app to book Oncheonjip, Mongtan, and popular spots in advance</li>
+      <li><strong>Transport:</strong> T-Money card for subway · Kakao Taxi for late nights · Naver Maps for walking</li>
+    </ul>
+  </div>
+
+  <!-- Phase 3: Seoul → Bali -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#B05A00"></div>
+    <div class="phase-title">Transit — Seoul to Bali</div>
+    <div class="phase-dates">Jul 28</div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Wed</div>
+        <div class="day-num">28</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-flight">✈ Flight</span>
+        <div class="day-title">Seoul ICN → Bali DPS</div>
+        <div class="day-meta">Korean Air · Business · ~7.5 hrs nonstop</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Direct flight. Arrive Bali evening — overnight before the short hop to Labuan Bajo.</div>
+      <div class="cost-row">💺 ~$1,500–$2,500 <span class="cost-note">/ person</span></div>
+      <span class="status-pill pill-pending">⏳ Book with LAX–ICN segment</span>
+    </div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Wed</div>
+        <div class="day-num">28</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-bali">🌴 Bali</span>
+        <div class="day-title">Overnight — InterContinental Bali Resort</div>
+        <div class="day-meta">Jimbaran Bay · ~15 min from DPS</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Rest night before early connection to Labuan Bajo. Dinner at Jimbaran Bay seafood warungs (Menega, Teba Mega). IHG points eligible.</div>
+      <div class="cost-row">🏨 ~$200–$350 <span class="cost-note">/ night · peak July</span></div>
+      <span class="status-pill pill-pending">⏳ Reserve Jan 2027 — peak season fills fast</span>
+    </div>
+  </div>
+
+  <!-- Phase 4: Labuan Bajo -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#14785A"></div>
+    <div class="phase-title">Labuan Bajo Pre-Stay</div>
+    <div class="phase-dates">Jul 29 · 1 Night</div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Thu</div>
+        <div class="day-num">29</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-flight">✈ Flight</span>
+        <div class="day-title">Bali DPS → Labuan Bajo LBJ</div>
+        <div class="day-meta">Batik Air / AirAsia · Economy · ~1 hr</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Short hop — multiple departures daily from DPS. Komodo Airport (LBJ) is 5–15 min from all resorts.</div>
+      <div class="cost-row">💺 ~$80–$150 <span class="cost-note">/ person</span></div>
+      <span class="status-pill pill-pending">⏳ Book Economy — flexible options</span>
+    </div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Thu</div>
+        <div class="day-num">29</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-lbj">🏝 Labuan Bajo</span>
+        <div class="day-title">Check In — Pre-Liveaboard Resort</div>
+        <div class="day-meta">Top pick: AYANA Komodo Waecicu Beach</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Rooftop bar with panoramic Komodo views. On-site dive club to test gear before boarding. Coralia briefing typically evening of Jul 29.</div>
+      <div class="cost-row">🏨 ~$165–$280 <span class="cost-note">/ night (AYANA)</span></div>
+      <span class="status-pill pill-pending">⏳ Book resort — peak season, book 6–9 months ahead</span>
+    </div>
+  </div>
+
+  <!-- Phase 5: Coralia -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#1E88B4"></div>
+    <div class="phase-title">🐠 Coralia Liveaboard</div>
+    <div class="phase-dates">Jul 30 – Aug 8 · 9 Nights</div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Fri</div>
+        <div class="day-num">30</div>
+        <div class="day-mon">Jul</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-coralia">🚢 Embark</span>
+        <div class="day-title">Board Coralia — Labuan Bajo Port</div>
+        <div class="day-meta">Trip #241 · Master Cabin, Main Deck · Invoice #6075</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Departs Labuan Bajo Port. Confirm pick-up time with Coralia crew after resort booking.</div>
+      <span class="status-pill pill-confirmed">✓ Confirmed — Deposit paid Oct 29, 2024</span>
+    </div>
+  </div>
+
+  <div class="span-block">
+    <div class="span-header">
+      <div class="span-nights-col" style="background:#E8F4FB; border-right:1px solid var(--border);">
+        <div class="span-n" style="color:#1E88B4">9</div>
+        <div class="span-nlbl">Nights</div>
+        <div class="span-range">Jul 30–Aug 8</div>
+      </div>
+      <div class="span-body">
+        <span class="tag tag-coralia">🌊 At Sea</span>
+        <div class="day-title">Komodo National Park &amp; Sumbawa</div>
+        <div class="day-meta">Balance due $7,948.88 — May 1, 2027</div>
+        <span class="status-pill pill-confirmed">✓ Booked · Balance due May 1, 2027</span>
+      </div>
+    </div>
+    <ul class="span-highlights">
+      <li><strong>Dive sites:</strong> Batu Bolong, Crystal Rock, Cannibal Rock, Manta Alley</li>
+      <li><strong>Wildlife:</strong> Komodo Dragons on Rinca &amp; Komodo Island shore excursion included</li>
+      <li><strong>Sumbawa:</strong> Remote reefs, minimal boat traffic, pristine coral</li>
+      <li><strong>Contact:</strong> info@coralia-liveaboard.com · Invoice #6075</li>
+    </ul>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Sun</div>
+        <div class="day-num">8</div>
+        <div class="day-mon">Aug</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-coralia">🚢 Disembark</span>
+        <div class="day-title">Disembark — Labuan Bajo Port</div>
+        <div class="day-meta">Overnight in LBJ before Aug 9 return flight</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Return to Labuan Bajo. Book a hotel near Komodo Airport for the evening — departure is Aug 9 (Scoot LBJ→SIN departs 09:25 AM, Sunday-only).</div>
+    </div>
+  </div>
+
+  <!-- Phase 6: Return -->
+  <div class="phase-header">
+    <div class="phase-dot" style="background:#888"></div>
+    <div class="phase-title">Return Flights</div>
+    <div class="phase-dates">Aug 9</div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Mon</div>
+        <div class="day-num">9</div>
+        <div class="day-mon">Aug</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-flight">✈ Leg 1 of 2</span>
+        <div class="day-title">LBJ → Singapore SIN</div>
+        <div class="day-meta">Scoot TR291 · 09:25 AM → 12:55 PM · ~3.5 hrs</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Economy (2-2 config — no middle seats). Sunday-only nonstop from LBJ. Single SQ ticket ensures baggage tags to LAX + Business lounge access at Changi T3.</div>
+      <div class="cost-row">💺 Included in SQ single-ticket package</div>
+      <span class="status-pill pill-pending">⏳ Confirm Scoot operates Sundays in 2027</span>
+    </div>
+  </div>
+
+  <div class="day-entry">
+    <div class="day-label-row">
+      <div class="day-cal">
+        <div class="day-dow">Mon</div>
+        <div class="day-num">9</div>
+        <div class="day-mon">Aug</div>
+      </div>
+      <div class="day-content">
+        <span class="tag tag-flight">✈ Leg 2 of 2</span>
+        <div class="day-title">Singapore SIN → Los Angeles LAX</div>
+        <div class="day-meta">SQ38 · 08:45 PM → 09:20 PM (same day) · A350-900 ULR</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="day-detail">Business Class — "2026 J" suite with full-height closing privacy doors. ~7h 50m layover at Changi T3 (KrisFlyer lounge access).</div>
+      <div class="cost-row">💺 ~$3,800–$5,200 <span class="cost-note">/ person · full SQ package</span></div>
+      <span class="status-pill pill-pending">⏳ Priority — book Aug–Sep 2026 (miles) or Jan–Mar 2027 (cash)</span>
+    </div>
+  </div>
+
+  <div class="panel-footer">Coralia Trip 241 · Komodo &amp; Sumbawa · Jul 30 – Aug 8, 2027</div>
+</div>
+
+<!-- ═══════════ PANEL: FLIGHTS ═══════════ -->
+<div class="panel" id="panel-flights">
+  <div class="section-hero">
+    <div class="section-eyebrow">Planning</div>
+    <div class="section-title">Flight <em>Budget</em></div>
+  </div>
+
+  <div class="booking-banner">
+    <div class="bb-eyebrow">Action required</div>
+    <div class="bb-title">📅 Aug 25, 2026 — Check Google Flights</div>
+    <div class="bb-sub">Booking window opens for July 2027 flights. Best miles booking: Aug–Sep 2026. Best cash fares: Jan–Mar 2027.</div>
+  </div>
+
+  <div class="section-divider">
+    <div class="section-divider-label">Estimated Budget</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="card" style="margin: 0 14px 12px;">
+    <div class="budget-scroll">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Route</th>
+            <th>Cabin</th>
+            <th>Per Person</th>
+            <th>For 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="route-name">LAX → ICN</span><span class="route-date">Jul 23</span></td>
+            <td>Business</td>
+            <td><span class="cost-hi">$3,500–$5,000</span></td>
+            <td>$7K–$10K</td>
+          </tr>
+          <tr>
+            <td><span class="route-name">ICN → DPS (Bali)</span><span class="route-date">Jul 28</span></td>
+            <td>Business</td>
+            <td><span class="cost-hi">$1,500–$2,500</span></td>
+            <td>$3K–$5K</td>
+          </tr>
+          <tr>
+            <td><span class="route-name">DPS → LBJ</span><span class="route-date">Jul 29</span></td>
+            <td>Economy</td>
+            <td><span class="cost-hi">$80–$150</span></td>
+            <td>$160–$300</td>
+          </tr>
+          <tr>
+            <td><span class="route-name">LBJ → SIN (Scoot TR291)</span><span class="route-date">Aug 9</span></td>
+            <td>Economy</td>
+            <td colspan="2" style="color:var(--muted); font-size:11px;">Incl. in SQ package</td>
+          </tr>
+          <tr>
+            <td><span class="route-name">SIN → LAX (SQ38)</span><span class="route-date">Aug 9</span></td>
+            <td>Business</td>
+            <td><span class="cost-hi">$3,800–$5,200</span></td>
+            <td>$7.6K–$10.4K</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><strong>Total estimate (2 pax)</strong></td>
+            <td style="color:var(--accent); font-weight:700;">$9K–$13K / person</td>
+            <td style="color:var(--accent); font-weight:700;">$18K–$26K</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="source-note">Estimates based on Jul/Aug 2026 published fares (KAYAK, Cheapflights — Mar 2026). Miles booking could reduce significantly: 62,500–93,750 SKYPASS miles per leg.</div>
+  </div>
+
+  <div class="section-divider" style="margin-top: 4px;">
+    <div class="section-divider-label">Return Flight Options</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="flight-option priority">
+    <div class="fo-header">
+      <div class="fo-name">✈ Singapore Airlines (SIN hub)</div>
+      <span class="fo-rank fo-p1">Priority #1</span>
+    </div>
+    <div class="fo-detail">LBJ → SIN via Scoot TR291 (09:25 AM, Sun-only nonstop). Connect SQ38 (08:45 PM → LAX). Single ticket, bags tagged to LAX, Business lounge access at Changi T3. A350-900 ULR "2026 J" suite.</div>
+    <div class="fo-cost">~$3,800–$5,200 / person (full package)</div>
+  </div>
+
+  <div class="flight-option">
+    <div class="fo-header">
+      <div class="fo-name">✈ Starlux Airlines (TPE hub)</div>
+      <span class="fo-rank fo-p2">Alt #2</span>
+    </div>
+    <div class="fo-detail">LBJ → Bali (Batik) → TPE (Starlux) → LAX. Boutique suite, Michelin dining. 2 stops.</div>
+    <div class="fo-cost">~$2,700–$4,200 / person</div>
+  </div>
+
+  <div class="flight-option">
+    <div class="fo-header">
+      <div class="fo-name">✈ EVA Air (TPE hub)</div>
+      <span class="fo-rank fo-p2">Alt #3</span>
+    </div>
+    <div class="fo-detail">LBJ → Bali (Batik ID6330, 01:40 PM) → TPE (BR256, 04:20 PM) → LAX (BR12, 00:10 AM → 08:35 PM Aug 10).</div>
+    <div class="fo-cost">~$2,600–$3,900 / person</div>
+  </div>
+
+  <div class="flight-option">
+    <div class="fo-header">
+      <div class="fo-name">✈ Philippine Airlines (MNL hub)</div>
+      <span class="fo-rank fo-p2">Alt #4</span>
+    </div>
+    <div class="fo-detail">Value option. Most aggressive pricing, lie-flat on transpacific. 2 stops via Manila.</div>
+    <div class="fo-cost">~$1,850–$3,400 / person</div>
+  </div>
+
+  <div class="note">ℹ️ All return options require departing Aug 9 (Sunday) — Scoot LBJ→SIN is Sunday-only. Verify 2027 schedules when booking window opens Aug 2026.</div>
+
+  <div class="panel-footer">Fares are estimates · 2027 prices subject to change</div>
+</div>
+
+<!-- ═══════════ PANEL: HOTELS ═══════════ -->
+<div class="panel" id="panel-hotels">
+  <div class="section-hero">
+    <div class="section-eyebrow">Where to stay</div>
+    <div class="section-title">Hotels &amp; <em>Resorts</em></div>
+  </div>
+
+  <div class="section-divider">
+    <div class="section-divider-label">Bali Overnight — Jul 28</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="hotel-card selected">
+    <div class="hotel-img hotel-img-bali">
+      <span>🌊</span>
+      <div class="hotel-selected-badge">✓ Selected</div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-brand">IHG / InterContinental · 5-star</div>
+      <div class="hotel-name">InterContinental Bali Resort</div>
+      <div class="hotel-location">Jimbaran Bay · ~15 min from DPS Airport</div>
+      <div class="hotel-desc">Best balance of comfort, price, and proximity to the airport. Lush gardens, multiple pools, excellent service. IHG points eligible. Jimbaran Bay has world-famous seafood warungs on the beach.</div>
+      <div class="hotel-tags">
+        <span class="htag">15 min to DPS</span>
+        <span class="htag">Multiple pools</span>
+        <span class="htag">IHG points</span>
+        <span class="htag">Beachside dining</span>
+      </div>
+      <div class="hotel-meta">
+        <div class="hm-item">
+          <div class="hm-label">Nightly rate (est.)</div>
+          <div class="hm-value price">$200–$350</div>
+        </div>
+        <div class="hm-item">
+          <div class="hm-label">Book by</div>
+          <div class="hm-value">Jan 2027</div>
+        </div>
+      </div>
+      <div class="hotel-cta">
+        <a href="https://www.ihg.com/intercontinental/hotels/us/en/jimbaran/dpsha/hoteldetail" target="_blank" class="btn-primary">View hotel</a>
+        <a href="https://www.ihg.com/intercontinental/hotels/us/en/jimbaran/dpsha/hoteldetail" target="_blank" class="btn-outline">Check rates</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider" style="margin-top:6px;">
+    <div class="section-divider-label">Labuan Bajo Pre-Stay — Jul 29</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- AYANA -->
+  <div class="hotel-card">
+    <div class="hotel-img hotel-img-ayana">
+      <span>🌅</span>
+      <div class="hotel-rank-badge">1</div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-brand">AYANA Hotels · 5-star · Top Pick</div>
+      <div class="hotel-name">AYANA Komodo Waecicu Beach</div>
+      <div class="hotel-location">Waecicu Beach · 10 min from LBJ airport</div>
+      <div class="hotel-desc">Undisputed benchmark for luxury in Labuan Bajo. 250m private jetty, rooftop sunset bar, on-site dive club — perfect for testing gear before the Coralia departs. TripAdvisor #1 or #2 consistently.</div>
+      <div class="hotel-tags">
+        <span class="htag">Private beach</span>
+        <span class="htag">250m jetty</span>
+        <span class="htag">Dive club</span>
+        <span class="htag">Rooftop bar</span>
+        <span class="htag">AYANA Miles</span>
+      </div>
+      <div class="hotel-meta">
+        <div class="hm-item">
+          <div class="hm-label">Nightly rate (est.)</div>
+          <div class="hm-value price">$165–$280</div>
+        </div>
+        <div class="hm-item">
+          <div class="hm-label">Loyalty program</div>
+          <div class="hm-value">AYANA Miles</div>
+        </div>
+      </div>
+      <div class="hotel-cta">
+        <a href="https://www.ayana.com/labuan-bajo/komodo/" target="_blank" class="btn-primary">View resort</a>
+        <a href="https://www.booking.com/hotel/id/ayana-komodo-resort-waecicu-beach.html" target="_blank" class="btn-outline">Check rates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TA'AKTANA -->
+  <div class="hotel-card">
+    <div class="hotel-img hotel-img-taak">
+      <span>🌙</span>
+      <div class="hotel-rank-badge">2</div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-brand">Marriott Luxury Collection · 5-star</div>
+      <div class="hotel-name">TA'AKTANA Luxury Resort</div>
+      <div class="hotel-location">Labuan Bajo · 8 min from LBJ airport</div>
+      <div class="hotel-desc">Most luxurious option. Overwater villas bookable on Marriott Bonvoy. Exceptional design and service. Best for couples wanting maximum indulgence.</div>
+      <div class="hotel-tags">
+        <span class="htag">Overwater villas</span>
+        <span class="htag">Marriott Bonvoy</span>
+        <span class="htag">Most luxurious</span>
+      </div>
+      <div class="hotel-meta">
+        <div class="hm-item">
+          <div class="hm-label">Nightly rate (est.)</div>
+          <div class="hm-value price">$320–$800</div>
+        </div>
+        <div class="hm-item">
+          <div class="hm-label">Loyalty program</div>
+          <div class="hm-value">Marriott Bonvoy</div>
+        </div>
+      </div>
+      <div class="hotel-cta">
+        <a href="https://www.marriott.com/en-us/hotels/lbjtc-taaktana-a-luxury-collection-resort-labuan-bajo/overview/" target="_blank" class="btn-primary">View resort</a>
+        <a href="https://www.marriott.com/en-us/hotels/lbjtc-taaktana-a-luxury-collection-resort-labuan-bajo/overview/" target="_blank" class="btn-outline">Check rates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATARAN -->
+  <div class="hotel-card">
+    <div class="hotel-img hotel-img-plat">
+      <span>⛵</span>
+      <div class="hotel-rank-badge">3</div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-brand">Plataran · 5-star boutique</div>
+      <div class="hotel-name">Plataran Komodo Resort &amp; Spa</div>
+      <div class="hotel-location">Labuan Bajo · 15 min + boat access only</div>
+      <div class="hotel-desc">Most romantic option. Boat-access-only secluded cove — completely private and intimate. The most dramatic setting of all four options, but transfer logistics are more complex.</div>
+      <div class="hotel-tags">
+        <span class="htag">Boat access only</span>
+        <span class="htag">Secluded cove</span>
+        <span class="htag">Most romantic</span>
+      </div>
+      <div class="hotel-meta">
+        <div class="hm-item">
+          <div class="hm-label">Nightly rate (est.)</div>
+          <div class="hm-value price">$235–$550</div>
+        </div>
+        <div class="hm-item">
+          <div class="hm-label">Transfer</div>
+          <div class="hm-value">Boat required</div>
+        </div>
+      </div>
+      <div class="hotel-cta">
+        <a href="https://www.plataran.com/plataran-komodo/" target="_blank" class="btn-primary">View resort</a>
+        <a href="https://www.booking.com/hotel/id/plataran-komodo-resort-spa.html" target="_blank" class="btn-outline">Check rates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUDAMALA -->
+  <div class="hotel-card">
+    <div class="hotel-img hotel-img-sud">
+      <span>🏛</span>
+      <div class="hotel-rank-badge">4</div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-brand">Sudamala Resorts · 5-star</div>
+      <div class="hotel-name">Sudamala Resort Komodo</div>
+      <div class="hotel-location">Pantai Pede · 5 min from LBJ airport</div>
+      <div class="hotel-desc">Best value option and closest to airport. Distinctive Wae Rebo-inspired architecture. Walking distance to Labuan Bajo town. New build with top-rated breakfast. Best fallback if AYANA fills.</div>
+      <div class="hotel-tags">
+        <span class="htag">5 min to airport</span>
+        <span class="htag">Walk to town</span>
+        <span class="htag">Best value</span>
+        <span class="htag">New build</span>
+      </div>
+      <div class="hotel-meta">
+        <div class="hm-item">
+          <div class="hm-label">Nightly rate (est.)</div>
+          <div class="hm-value price">$120–$280</div>
+        </div>
+        <div class="hm-item">
+          <div class="hm-label">Best for</div>
+          <div class="hm-value">Value &amp; convenience</div>
+        </div>
+      </div>
+      <div class="hotel-cta">
+        <a href="https://www.sudamalaresorts.com/komodo" target="_blank" class="btn-primary">View resort</a>
+        <a href="https://www.booking.com/hotel/id/sudamala-resort-komodo-labuan-bajo.html" target="_blank" class="btn-outline">Check rates</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">All rates are estimates · July is peak season — book early</div>
+</div>
+
+<!-- ═══════════ PANEL: SEOUL ═══════════ -->
+<div class="panel" id="panel-seoul">
+  <div class="section-hero">
+    <div class="section-eyebrow">Stopover · Jul 23–28 · 5 Nights</div>
+    <div class="section-title">Seoul, <em>South Korea</em></div>
+  </div>
+
+  <div class="booking-box">
+    <div class="bb-eyebrow">Where you're staying</div>
+    <div class="bb-title">🏨 Four Seasons Hotel Seoul</div>
+    <div class="bb-sub">97 Saemunan-ro, Jongno-gu · Gwanghwamun district · Gyeongbokgung Palace 5 min walk · 5 nights: Jul 23–28</div>
+  </div>
+
+  <div class="section-divider">
+    <div class="section-divider-label">Why Seoul</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="card" style="margin: 0 14px 12px;">
+    <div class="card-header">
+      <div class="card-icon">🏆</div>
+      <div>
+        <div class="card-title">Ranked #1 Stopover City</div>
+        <div class="card-subtitle">Over Sydney, Tokyo, Hong Kong, Taipei</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="detail-row">
+        <div class="detail-label">Flight savings</div>
+        <div class="detail-value" style="color:var(--green); font-weight:700;">$4K–$8K cheaper / person vs. Sydney</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Inbound flight</div>
+        <div class="detail-value">Korean Air / Asiana — LAX→ICN nonstop, 13.5 hrs</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Onward to Bali</div>
+        <div class="detail-value">Korean Air — ICN→DPS nonstop, 7.5 hrs Business</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Neither visited</div>
+        <div class="detail-value">Todd &amp; Mai Do both new to Seoul ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="section-divider-label">5-Day Highlights</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">📍 Day-by-Day Ideas</div>
+    <ul class="info-card-body">
+      <li><strong>Day 1–2:</strong> Gyeongbokgung Palace, Bukchon Hanok Village, Insadong, Changdeokgung &amp; Secret Garden</li>
+      <li><strong>Day 3:</strong> DMZ &amp; JSA (Joint Security Area) day trip — book in advance</li>
+      <li><strong>Day 4:</strong> Hongdae, Mapo, Sinchon — street food, art, nightlife</li>
+      <li><strong>Day 5:</strong> Myeongdong shopping, N Seoul Tower (Namsan), Gangnam (optional)</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">🍜 Dining Tips</div>
+    <ul class="info-card-body">
+      <li><strong>CatchTable app</strong> — essential for booking popular spots (Oncheonjip, Mongtan, etc.)</li>
+      <li><strong>Popular areas:</strong> Insadong for traditional, Itaewon for international, Mapo for trendy spots</li>
+      <li><strong>Must-try:</strong> Korean BBQ, bibimbap, jjajangmyeon, tteokbokki, Korean fried chicken</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">🚇 Getting Around</div>
+    <ul class="info-card-body">
+      <li><strong>T-Money card</strong> — subway &amp; bus, purchase at any station or convenience store</li>
+      <li><strong>Kakao Taxi</strong> — reliable app-based taxi for late nights, works in English</li>
+      <li><strong>Naver Maps</strong> — better than Google for Seoul walking directions</li>
+      <li><strong>Subway:</strong> Extensive, cheap, signs in English — fastest way around the city</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">⚠️ Things to Know</div>
+    <ul class="info-card-body">
+      <li><strong>Currency:</strong> Korean Won (KRW) — most places accept cards; carry some cash for markets</li>
+      <li><strong>Language:</strong> Google Translate camera mode useful; most tourist areas have English signage</li>
+      <li><strong>Weather:</strong> Late July is hot and humid (~30°C/86°F) with occasional rain — pack light layers</li>
+      <li><strong>Allan Su's Seoul list</strong> — 29 curated picks available in the desktop Trip Planner</li>
+    </ul>
+  </div>
+
+  <div class="panel-footer">Jul 23–28, 2027 · 5 nights · Four Seasons Hotel Seoul</div>
+</div>
+
+<!-- ═══════════ PANEL: DEADLINES ═══════════ -->
+<div class="panel" id="panel-deadlines">
+  <div class="section-hero">
+    <div class="section-eyebrow">Action items</div>
+    <div class="section-title">Key <em>Deadlines</em></div>
+  </div>
+
+  <!-- DONE -->
+  <div class="section-divider">
+    <div class="section-divider-label">Completed</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="deadline-card done">
+    <div class="dl-date-col">
+      <div class="dl-month">Oct</div>
+      <div class="dl-day">29</div>
+      <div class="dl-year">2024</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">✓ Coralia Deposit Paid</div>
+      <div class="dl-desc">$3,382.37 deposit paid. Trip #241 confirmed — Master Cabin, Main Deck. Invoice #6075.</div>
+      <div class="dl-amount green">✓ $3,382.37 paid</div>
+    </div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div class="section-divider">
+    <div class="section-divider-label">Upcoming</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="deadline-card high">
+    <div class="dl-date-col">
+      <div class="dl-month">Aug</div>
+      <div class="dl-day">25</div>
+      <div class="dl-year">2026</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">📅 Check Google Flights — Booking Window Opens</div>
+      <div class="dl-desc">Set Google Flights alerts for LAX→ICN→DPS and LBJ→SIN→LAX. Miles booking window: Aug–Sep 2026. Calendar reminder already set.</div>
+    </div>
+  </div>
+
+  <div class="deadline-card high">
+    <div class="dl-date-col">
+      <div class="dl-month">Jan</div>
+      <div class="dl-day">4</div>
+      <div class="dl-year">2027</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">🏨 Book InterContinental Bali (Jul 28 layover)</div>
+      <div class="dl-desc">InterContinental Bali Resort, Jimbaran Bay — 1 night. July is peak season, fills fast. Calendar reminder set.</div>
+      <div class="dl-amount" style="color:var(--accent);">~$200–$350 / night</div>
+    </div>
+  </div>
+
+  <div class="deadline-card normal">
+    <div class="dl-date-col">
+      <div class="dl-month">Jan–Mar</div>
+      <div class="dl-day" style="font-size:16px; line-height:1.3; padding-top:2px;">Cash<br>Fares</div>
+      <div class="dl-year">2027</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">✈ Book Flights — Best Cash Fare Window</div>
+      <div class="dl-desc">Jan–Mar 2027 is the optimal window for Business Class cash fares. Priority: Singapore Airlines SQ single-ticket (LBJ→SIN→LAX). Also check Starlux, EVA Air, PAL.</div>
+    </div>
+  </div>
+
+  <div class="deadline-card normal">
+    <div class="dl-date-col">
+      <div class="dl-month">Jan–Mar</div>
+      <div class="dl-day" style="font-size:16px; line-height:1.3; padding-top:2px;">Book<br>Hotel</div>
+      <div class="dl-year">2027</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">🏨 Book Four Seasons Hotel Seoul (Jul 23–28)</div>
+      <div class="dl-desc">5 nights, peak summer season. 97 Saemunan-ro, Jongno-gu. Reserve early — July is one of Seoul's busiest travel periods.</div>
+    </div>
+  </div>
+
+  <div class="deadline-card normal">
+    <div class="dl-date-col">
+      <div class="dl-month">Jan–Mar</div>
+      <div class="dl-day" style="font-size:16px; line-height:1.3; padding-top:2px;">Book<br>LBJ</div>
+      <div class="dl-year">2027</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">🏝 Book Labuan Bajo Pre-Stay Resort (Jul 29)</div>
+      <div class="dl-desc">Top pick: AYANA Komodo Waecicu Beach. Book 6–9 months ahead — July is peak season. See Hotels tab for full options.</div>
+    </div>
+  </div>
+
+  <div class="deadline-card urgent">
+    <div class="dl-date-col">
+      <div class="dl-month">May</div>
+      <div class="dl-day">1</div>
+      <div class="dl-year">2027</div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-title">⚠️ Coralia Balance Due — Wire Transfer</div>
+      <div class="dl-desc">Wire to Bank Mandiri. SWIFT: BMRIIDJA. Account: 160 000 320 2773. Reference: Invoice 6075. This is also the no-refund cutoff date.</div>
+      <div class="dl-amount">$7,948.88 due</div>
+    </div>
+  </div>
+
+  <div class="section-divider" style="margin-top:6px;">
+    <div class="section-divider-label">Trip Dates</div>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="card" style="margin: 0 14px 12px;">
+    <div class="card-body" style="padding-top:14px;">
+      <div class="detail-row">
+        <div class="detail-label">Depart LAX</div>
+        <div class="detail-value">Fri, Jul 23, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Arrive Seoul</div>
+        <div class="detail-value">Sat, Jul 24, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Seoul → Bali</div>
+        <div class="detail-value">Wed, Jul 28, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Bali → LBJ</div>
+        <div class="detail-value">Thu, Jul 29, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Board Coralia</div>
+        <div class="detail-value">Fri, Jul 30, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Disembark</div>
+        <div class="detail-value">Sun, Aug 8, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Return flight</div>
+        <div class="detail-value">Mon, Aug 9, 2027</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Arrive LAX</div>
+        <div class="detail-value">Mon, Aug 9, 2027 (date line)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">Coralia Invoice #6075 · info@coralia-liveaboard.com</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="switchTab('itin')" id="btn-itin">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">Itinerary</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('flights')" id="btn-flights">
+    <span class="nav-icon">✈️</span>
+    <span class="nav-label">Flights</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('hotels')" id="btn-hotels">
+    <span class="nav-icon">🏨</span>
+    <span class="nav-label">Hotels</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('seoul')" id="btn-seoul">
+    <span class="nav-icon">🇰🇷</span>
+    <span class="nav-label">Seoul</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('deadlines')" id="btn-deadlines">
+    <span class="nav-icon">⏰</span>
+    <span class="nav-label">Deadlines</span>
+  </button>
+</nav>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('btn-' + tab).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
