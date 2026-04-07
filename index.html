@@ -423,11 +423,16 @@
   .pack-cat-cnt { font-size: 11px; color: var(--muted); margin-left: auto; }
 
   .pack-row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 5px; }
-  .pack-row.is-packed { background: #f0faf5; border-color: #c2e8d5; }
-  .pack-cb-m { width: 17px; height: 17px; cursor: pointer; accent-color: var(--green); flex-shrink: 0; }
+  .pack-row.both-packed { background: #f0faf5; border-color: #c2e8d5; }
+  .pack-cb-pair-m { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
+  .pack-cb-wrap-m { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .pack-cb-wrap-m input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; margin: 0; }
+  .pack-cb-wrap-m input[data-person="todd"] { accent-color: var(--green); }
+  .pack-cb-wrap-m input[data-person="mai"]  { accent-color: var(--gold); }
+  .pack-cb-lbl-m { font-size: 10px; font-weight: 700; letter-spacing: .05em; color: var(--muted); user-select: none; min-width: 28px; }
   .pack-row-info { flex: 1; min-width: 0; }
   .pack-row-name { font-size: 13px; font-weight: 500; }
-  .pack-row.is-packed .pack-row-name { text-decoration: line-through; color: var(--muted); }
+  .pack-row.both-packed .pack-row-name { text-decoration: line-through; color: var(--muted); }
   .pack-row-notes { font-size: 11px; color: var(--muted); margin-top: 1px; font-style: italic; }
   .pack-row-acts { display: flex; gap: 5px; }
   .pack-act-m { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 10px; cursor: pointer; color: var(--muted); font-family: 'DM Sans', sans-serif; }
@@ -1343,10 +1348,16 @@
     <div class="pack-panel-header">
       <div class="pack-panel-title">🎒 Packing List</div>
       <div class="pack-prog-wrap">
-        <div class="pack-prog-bar-bg">
-          <div class="pack-prog-bar-fill" id="m-pack-bar" style="width:0%"></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:700;color:var(--text);width:32px;">Todd</span>
+          <div class="pack-prog-bar-bg" style="flex:1"><div class="pack-prog-bar-fill" id="m-pack-bar-todd" style="width:0%"></div></div>
+          <span class="pack-prog-lbl" id="m-pack-lbl-todd" style="width:28px;text-align:left;">0/13</span>
         </div>
-        <div class="pack-prog-lbl" id="m-pack-lbl">0 of 13 packed</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:11px;font-weight:700;color:var(--text);width:32px;">Mai</span>
+          <div class="pack-prog-bar-bg" style="flex:1"><div class="pack-prog-bar-fill" id="m-pack-bar-mai" style="width:0%;background:var(--gold)"></div></div>
+          <span class="pack-prog-lbl" id="m-pack-lbl-mai" style="width:28px;text-align:left;">0/13</span>
+        </div>
       </div>
     </div>
     <div class="pack-add-row">
@@ -1402,19 +1413,19 @@ var M_PACK_KEY = 'coralia2027_packing'; // shared key with desktop
 var mPackEditId = null;
 
 var mPackDefault = [
-  { id:1,  category:'Scuba',   item:'Regulator Set',      notes:'Service by April 2027', packed:false },
-  { id:2,  category:'Scuba',   item:'Prescription Mask',  notes:'Primary (Readers)',      packed:false },
-  { id:3,  category:'Scuba',   item:'Spare Mask',         notes:'Backup (Readers)',       packed:false },
-  { id:4,  category:'Scuba',   item:'BCD & Fins',         notes:'',                       packed:false },
-  { id:5,  category:'Scuba',   item:"May's Regulator",    notes:'Service by April 2027', packed:false },
-  { id:6,  category:'Safety',  item:'SMB',                notes:'Essential for Komodo',   packed:false },
-  { id:7,  category:'Safety',  item:'Dive Computer',      notes:'Check Battery',          packed:false },
-  { id:8,  category:'Photo',   item:'Canon 5D Mark IV',   notes:'Wide Angle Setup',       packed:false },
-  { id:9,  category:'Photo',   item:'Ikelite Strobes',    notes:'DS-160, 125, & 51s',     packed:false },
-  { id:10, category:'Photo',   item:'Insta360 / GoPros',  notes:'Action Cams',            packed:false },
-  { id:11, category:'Photo',   item:'Ikelite Housings',   notes:'Check O-rings/Grease',   packed:false },
-  { id:12, category:'Photo',   item:'Canon Rebel Mark II',notes:'Macro Setup',            packed:false },
-  { id:13, category:'Storage', item:'SSDs (1TB & 2TB)',   notes:'Backup Drives',          packed:false }
+  { id:1,  category:'Scuba',   item:'Regulator Set',      notes:'Service by April 2027', toddPacked:false, maiPacked:false },
+  { id:2,  category:'Scuba',   item:'Prescription Mask',  notes:'Primary (Readers)',      toddPacked:false, maiPacked:false },
+  { id:3,  category:'Scuba',   item:'Spare Mask',         notes:'Backup (Readers)',       toddPacked:false, maiPacked:false },
+  { id:4,  category:'Scuba',   item:'BCD & Fins',         notes:'',                       toddPacked:false, maiPacked:false },
+  { id:5,  category:'Scuba',   item:"May's Regulator",    notes:'Service by April 2027',  toddPacked:false, maiPacked:false },
+  { id:6,  category:'Safety',  item:'SMB',                notes:'Essential for Komodo',   toddPacked:false, maiPacked:false },
+  { id:7,  category:'Safety',  item:'Dive Computer',      notes:'Check Battery',          toddPacked:false, maiPacked:false },
+  { id:8,  category:'Photo',   item:'Canon 5D Mark IV',   notes:'Wide Angle Setup',       toddPacked:false, maiPacked:false },
+  { id:9,  category:'Photo',   item:'Ikelite Strobes',    notes:'DS-160, 125, & 51s',     toddPacked:false, maiPacked:false },
+  { id:10, category:'Photo',   item:'Insta360 / GoPros',  notes:'Action Cams',            toddPacked:false, maiPacked:false },
+  { id:11, category:'Photo',   item:'Ikelite Housings',   notes:'Check O-rings/Grease',   toddPacked:false, maiPacked:false },
+  { id:12, category:'Photo',   item:'Canon Rebel Mark II',notes:'Macro Setup',            toddPacked:false, maiPacked:false },
+  { id:13, category:'Storage', item:'SSDs (1TB & 2TB)',   notes:'Backup Drives',          toddPacked:false, maiPacked:false }
 ];
 
 var mPackCatMeta = {
@@ -1425,7 +1436,22 @@ var mPackCatMeta = {
 };
 
 function mGetPack() {
-  try { var r = localStorage.getItem(M_PACK_KEY); if (r) return JSON.parse(r); } catch(e) {}
+  try {
+    var r = localStorage.getItem(M_PACK_KEY);
+    if (r) {
+      var list = JSON.parse(r);
+      // Migrate old single 'packed' field → toddPacked / maiPacked
+      list = list.map(function(i) {
+        if (typeof i.packed !== 'undefined' && typeof i.toddPacked === 'undefined') {
+          i.toddPacked = i.packed; i.maiPacked = i.packed; delete i.packed;
+        }
+        if (typeof i.toddPacked === 'undefined') i.toddPacked = false;
+        if (typeof i.maiPacked  === 'undefined') i.maiPacked  = false;
+        return i;
+      });
+      return list;
+    }
+  } catch(e) {}
   return JSON.parse(JSON.stringify(mPackDefault));
 }
 function mSavePack(list) { try { localStorage.setItem(M_PACK_KEY, JSON.stringify(list)); } catch(e) {} }
@@ -1436,13 +1462,20 @@ function mRenderPacking() {
   var el   = document.getElementById('m-pack-cats');
   if (!el) return;
 
-  var packed = list.filter(function(i){ return i.packed; }).length;
-  var total  = list.length;
-  var pct    = total > 0 ? Math.round(packed / total * 100) : 0;
-  var bar    = document.getElementById('m-pack-bar');
-  var lbl    = document.getElementById('m-pack-lbl');
-  if (bar) bar.style.width = pct + '%';
-  if (lbl) lbl.textContent = packed + ' of ' + total + ' packed';
+  var total = list.length;
+  var tPkd  = list.filter(function(i){ return i.toddPacked; }).length;
+  var mPkd  = list.filter(function(i){ return i.maiPacked;  }).length;
+  var tPct  = total > 0 ? Math.round(tPkd / total * 100) : 0;
+  var mPct  = total > 0 ? Math.round(mPkd / total * 100) : 0;
+
+  var tBar = document.getElementById('m-pack-bar-todd');
+  var mBar = document.getElementById('m-pack-bar-mai');
+  var tLbl = document.getElementById('m-pack-lbl-todd');
+  var mLbl = document.getElementById('m-pack-lbl-mai');
+  if (tBar) tBar.style.width = tPct + '%';
+  if (mBar) mBar.style.width = mPct + '%';
+  if (tLbl) tLbl.textContent = tPkd + '/' + total;
+  if (mLbl) mLbl.textContent = mPkd + '/' + total;
 
   var stdCats = ['Scuba','Safety','Photo','Storage'];
   var allCats = [];
@@ -1453,16 +1486,20 @@ function mRenderPacking() {
   allCats.forEach(function(cat) {
     var items  = list.filter(function(i){ return i.category === cat; });
     var meta   = mPackCatMeta[cat] || { icon:'📦', color:'#666' };
-    var cpk    = items.filter(function(i){ return i.packed; }).length;
+    var catT   = items.filter(function(i){ return i.toddPacked; }).length;
+    var catM   = items.filter(function(i){ return i.maiPacked;  }).length;
     html += '<div class="pack-cat-hdr">';
     html += '<span class="pack-cat-icon-m">' + meta.icon + '</span>';
     html += '<span class="pack-cat-name-m" style="color:' + meta.color + '">' + mEsc(cat) + '</span>';
-    html += '<span class="pack-cat-cnt">' + cpk + '/' + items.length + '</span>';
+    html += '<span class="pack-cat-cnt">T:' + catT + '/' + items.length + ' M:' + catM + '/' + items.length + '</span>';
     html += '</div>';
     items.forEach(function(item) {
-      var cls = item.packed ? ' is-packed' : '';
+      var cls = (item.toddPacked && item.maiPacked) ? ' both-packed' : '';
       html += '<div class="pack-row' + cls + '">';
-      html += '<input type="checkbox" class="pack-cb-m"' + (item.packed ? ' checked' : '') + ' onchange="mTogglePack(' + item.id + ',this.checked)">';
+      html += '<div class="pack-cb-pair-m">';
+      html += '<label class="pack-cb-wrap-m"><input type="checkbox" data-person="todd"' + (item.toddPacked ? ' checked' : '') + ' onchange="mTogglePack(' + item.id + ',\'todd\',this.checked)"><span class="pack-cb-lbl-m">TODD</span></label>';
+      html += '<label class="pack-cb-wrap-m"><input type="checkbox" data-person="mai"'  + (item.maiPacked  ? ' checked' : '') + ' onchange="mTogglePack(' + item.id + ',\'mai\',this.checked)"><span class="pack-cb-lbl-m">MAI</span></label>';
+      html += '</div>';
       html += '<div class="pack-row-info">';
       html += '<div class="pack-row-name">' + mEsc(item.item) + '</div>';
       if (item.notes) html += '<div class="pack-row-notes">' + mEsc(item.notes) + '</div>';
@@ -1477,9 +1514,14 @@ function mRenderPacking() {
   el.innerHTML = html;
 }
 
-function mTogglePack(id, checked) {
+function mTogglePack(id, person, checked) {
   var list = mGetPack();
-  list.forEach(function(i){ if (i.id===id) i.packed=checked; });
+  list.forEach(function(i) {
+    if (i.id === id) {
+      if (person === 'todd') i.toddPacked = checked;
+      else i.maiPacked = checked;
+    }
+  });
   mSavePack(list); mRenderPacking();
 }
 function mDeletePack(id) {
@@ -1517,7 +1559,7 @@ function mSavePackItem() {
     list.forEach(function(i){ if(i.id===mPackEditId){ i.item=iv; i.category=cv; i.notes=nv; } });
   } else {
     var nid = list.length > 0 ? Math.max.apply(null, list.map(function(i){ return i.id; })) + 1 : 1;
-    list.push({ id:nid, category:cv, item:iv, notes:nv, packed:false });
+    list.push({ id:nid, category:cv, item:iv, notes:nv, toddPacked:false, maiPacked:false });
   }
   mSavePack(list); mClosePackModal(); mRenderPacking();
 }
