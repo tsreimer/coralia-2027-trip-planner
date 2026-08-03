@@ -64,6 +64,7 @@
   .tab-btn.active.t-vs { border-bottom-color:var(--seoul); color:var(--seoul); }
   .tab-btn.active.t-all { border-bottom-color:var(--taipei); color:var(--taipei); }
   .tab-btn.active.t-pack { border-bottom-color:#C4920A; color:#C4920A; }
+  .tab-btn.active.t-res  { border-bottom-color:#1E6B4E; color:#1E6B4E; }
 
   /* ══════════════════════════════════════
      PACKING LIST TAB
@@ -317,9 +318,32 @@
     .tab-btn{font-size:12px;padding:12px 8px}
   }
 
-  /* ═══ TAB 3: LABUAN BAJO RESORTS ═══ */
-  .tab-btn.active.t-resorts { border-bottom-color: #1A3A4A; color: #1A3A4A; }
   .tab-btn.active.t-seoul-loc { border-bottom-color: #c0392b; color: #c0392b; }
+
+  /* ═══ TAB: RESERVATIONS ═══ */
+  .res-wrap { max-width:800px; margin:0 auto; padding:32px 24px; }
+  .res-page-header { margin-bottom:28px; }
+  .res-page-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; }
+  .res-page-sub { font-size:13px; color:var(--muted); margin-top:4px; }
+  .res-section-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .res-section-label.pending-lbl { color:#C4920A; }
+  .res-card { display:flex; align-items:stretch; border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; background:var(--surface); }
+  .res-card.confirmed { border-left:4px solid #14785A; }
+  .res-card.pending   { border-left:4px solid #C4920A; opacity:.85; }
+  .res-card-left { padding:20px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; min-width:70px; border-right:1px solid var(--border); background:var(--bg); }
+  .res-card-icon { font-size:24px; }
+  .res-card-phase { font-size:9px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); text-align:center; }
+  .res-card-body { flex:1; padding:18px 20px; min-width:0; }
+  .res-card-title { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; margin-bottom:3px; }
+  .res-card-sub { font-size:12px; color:var(--muted); margin-bottom:8px; }
+  .res-card-dates { font-size:13px; font-weight:500; margin-bottom:10px; }
+  .res-date-note { font-size:11px; color:var(--muted); font-weight:400; }
+  .res-card-meta { display:flex; flex-direction:column; gap:5px; }
+  .res-meta-item { font-size:12px; color:var(--muted); }
+  .res-card-rate { font-size:11px; color:var(--muted); margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-style:italic; }
+  .res-card-badge { padding:18px 14px; display:flex; align-items:flex-start; flex-shrink:0; writing-mode:vertical-rl; text-orientation:mixed; }
+  .confirmed-badge { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#14785A; }
+  .pending-badge   { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#C4920A; }
 
   /* ═══ TAB 4: SEOUL LOCATIONS ═══ */
   .sl-hero {
@@ -1252,23 +1276,15 @@ footer {
 <div class="tab-bar">
   <button class="tab-btn t-itin active" onclick="switchTab('itin')">
     📅 Trip Itinerary
-    <span class="tab-sub">Jul 23 – Aug 10, 2027</span>
+    <span class="tab-sub">Jul 23 – Aug 9, 2027</span>
   </button>
   <button class="tab-btn t-seoul-loc" onclick="switchTab('seoul-loc')">
     🇰🇷 Seoul Locations
     <span class="tab-sub">Allan Su's 29 Top Picks</span>
   </button>
-  <button class="tab-btn t-resorts" onclick="switchTab('resorts')">
-    Labuan Bajo Resorts
-    <span class="tab-sub">Pre-dive stay &middot; Jul 29</span>
-  </button>
-  <button class="tab-btn t-vs" onclick="switchTab('vs')">
-    Seoul vs Sydney
-    <span class="tab-sub">Head-to-head finalists</span>
-  </button>
-  <button class="tab-btn t-all" onclick="switchTab('all')">
-    All 4 Destinations
-    <span class="tab-sub">Seoul &middot; Sydney &middot; Taipei &middot; Hong Kong</span>
+  <button class="tab-btn t-res" onclick="switchTab('res')">
+    🎫 Reservations
+    <span class="tab-sub">2 confirmed &middot; 3 pending</span>
   </button>
   <button class="tab-btn t-pack" onclick="switchTab('pack')">
     🎒 Packing List
@@ -1278,1116 +1294,116 @@ footer {
 
 <div class="main">
 
-<!-- ═══════ TAB 1: SEOUL vs SYDNEY ═══════ -->
-<div class="tab-panel" id="panel-vs">
-
-<div class="score-header">
-  <div class="spacer"></div>
-  <div class="score-col seoul-col">
-    <div class="score-city seoul">Seoul</div>
-    <div class="score-airline">Korean Air · Asiana · ICN</div>
-    <div class="score-tally">
-      <div class="tally-num seoul">9</div>
-      <div class="tally-label">categories<br>won</div>
+<!-- ═══════ TAB: RESERVATIONS ═══════ -->
+<div class="tab-panel" id="panel-res">
+  <div class="res-wrap">
+    <div class="res-page-header">
+      <div class="res-page-title">🎫 Reservations</div>
+      <div class="res-page-sub">Indonesia 2027 &middot; Todd &amp; Mai Do Reimer</div>
     </div>
-  </div>
-  <div class="score-col sydney-col">
-    <div class="score-city sydney">Sydney</div>
-    <div class="score-airline">Qantas · United · Delta · SYD</div>
-    <div class="score-tally">
-      <div class="tally-num sydney">5</div>
-      <div class="tally-label">categories<br>won</div>
-    </div>
-  </div>
-</div>
 
-<div class="main1">
+    <div class="res-section-label">✅ Confirmed</div>
 
-<div class="section-header"><div class="section-title">Cost — per person estimates</div></div>
-
-<div class="compare-row">
-  <div class="row-label">Trans-Pacific Business Class (round trip)</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div><span class="cost-big seoul">~$3,200–$5,000</span><span class="cost-note">Korean Air / Asiana · nonstop LAX→ICN · ~13.5 hrs</span></div>
-  <div class="row-cell"><div class="neutral-badge">Higher cost</div><span class="cost-big sydney">~$7,500–$9,500</span><span class="cost-note">Qantas / United / Delta · nonstop LAX→SYD · ~15 hrs</span></div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Stopover → Hub (Business, one way)</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div><span class="cost-big seoul">~$600–$1,200</span><span class="cost-note">Korean Air ICN→Bali (DPS) · nonstop · 7.5 hrs</span></div>
-  <div class="row-cell"><div class="neutral-badge">Comparable</div><span class="cost-big sydney">~$600–$1,100</span><span class="cost-note">Garuda Indonesia SYD→Jakarta (CGK) · 8 hrs</span></div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Final leg to Labuan Bajo (Economy)</div>
-  <div class="row-cell tie"><div class="tie-badge">Tie</div><span class="cost-big seoul" style="font-size:16px">~$80–$150</span><span class="cost-note">Bali (DPS)→LBJ · ~1 hr · Batik Air / AirAsia</span></div>
-  <div class="row-cell tie"><div class="tie-badge">Tie</div><span class="cost-big sydney" style="font-size:16px">~$80–$150</span><span class="cost-note">Jakarta (CGK)→LBJ · ~2.5 hrs · Garuda / Batik Air</span></div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Estimated total per person (all legs)</div>
-  <div class="row-cell win"><div class="win-badge">Best value</div><span class="cost-big seoul">~$3,880–$6,350</span><span class="cost-note">For 2 passengers: ~$7,760–$12,700</span></div>
-  <div class="row-cell"><div class="neutral-badge">Premium</div><span class="cost-big sydney">~$8,180–$10,750</span><span class="cost-note">For 2 passengers: ~$16,360–$21,500</span></div>
-</div>
-
-<div class="savings-banner">
-  <strong>Save ~$4,600–$8,800 per person choosing Seoul over Sydney</strong>
-  <p>That's enough to cover the full Coralia balance due ($7,948.88) with money to spare</p>
-</div>
-
-<div class="section-header"><div class="section-title">Routing & Flights</div></div>
-
-<div class="compare-row">
-  <div class="row-label">Geographic direction from LAX</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Flies northwest toward Asia — a natural progression toward Indonesia. Every leg moves you closer to the dive trip.</div>
-  <div class="row-cell"><div class="neutral-badge">Less efficient</div>Flies southwest past Indonesia, then back north to LBJ. You overshoot the destination by thousands of miles.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Total flight hours (full inbound journey)</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div><strong>~22 hrs total</strong><br>LAX→ICN 13.5h · ICN→Bali 7.5h · Bali→LBJ 1h</div>
-  <div class="row-cell"><div class="neutral-badge">More flying</div><strong>~26 hrs total</strong><br>LAX→SYD 15h · SYD→Jakarta 8h · Jakarta→LBJ 2.5h</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Flight frequency to LBJ hub</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Korean Air: 14+ flights/week ICN→Bali. Bali→LBJ: 122 flights/month. Maximum flexibility and recovery options.</div>
-  <div class="row-cell"><div class="neutral-badge">Fewer options</div>Garuda: ~18 connecting flights/week SYD→LBJ. 3 daily Jakarta→LBJ. Less scheduling flexibility.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Business Class to the hub?</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Yes — Korean Air Business Class ICN→Bali nonstop. Flat bed all the way to Bali.</div>
-  <div class="row-cell tie"><div class="tie-badge">Available</div>Yes — Garuda Indonesia Business Class SYD→Jakarta. Good product on this segment.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">If you miss a connection</div>
-  <div class="row-cell win"><div class="win-badge">Safer</div>Bali→LBJ: 4+ flights daily. Easy to recover same day if something goes wrong.</div>
-  <div class="row-cell"><div class="neutral-badge">Riskier</div>Jakarta→LBJ: ~3 flights daily. Fewer recovery options if the Jakarta connection slips.</div>
-</div>
-
-<div class="section-header"><div class="section-title">Experience — July 2027</div></div>
-
-<div class="compare-row">
-  <div class="row-label">July weather</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Warm ~75°F / 24°C. Occasional light showers, mostly clear. Vibrant, active city energy — perfect lead-in to a tropical dive trip.</div>
-  <div class="row-cell"><div class="neutral-badge">Cooler</div>Cool winter ~62°F / 17°C. Clear, low humidity — great for sightseeing but a jarring contrast before warm Indonesian waters. Pack layers.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Food scene</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>World-class Korean BBQ, street food markets, Michelin dining, night markets fully active. Extraordinary variety at every price point.</div>
-  <div class="row-cell win"><div class="win-badge">Also excellent</div>Outstanding multicultural city — top-tier seafood, fine dining, vibrant café culture, Yulefest winter dining in the Blue Mountains.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Photography</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Gyeongbokgung Palace, Bukchon hanok village, Hongdae street art, N Seoul Tower, dynamic modern skyline — extraordinary for street & architectural photography.</div>
-  <div class="row-cell win"><div class="win-badge">Also iconic</div>Opera House, Harbour Bridge, Bondi Beach, Blue Mountains — arguably the most globally recognisable skyline in the Southern Hemisphere.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Culture & history</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Ancient palaces, Buddhist temples, K-culture immersion, DMZ day trip option, traditional tea houses. Deep, layered experience.</div>
-  <div class="row-cell win"><div class="win-badge">Also excellent</div>Indigenous culture, Sydney Film Festival in July, Opera House performances, world-class museums. Distinctly different flavour.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Unique July highlight</div>
-  <div class="row-cell"><div class="neutral-badge">Year-round city</div>Night markets and street life active year-round. July is warm and lively — no exclusive seasonal event though.</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Peak humpback whale migration season along the east coast. Spectacular boat tours and free cliff-top viewing — once-in-a-season.</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Language & navigation</div>
-  <div class="row-cell"><div class="neutral-badge">Very good</div>Excellent English signage, world-class metro, easy to navigate independently. K-ETA required (simple online).</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>English-speaking country — zero language barrier. Airport train to city in 13 min. ETA required (simple online).</div>
-</div>
-
-<div class="compare-row">
-  <div class="row-label">Pre-diving energy / vibe</div>
-  <div class="row-cell win"><div class="win-badge">Winner</div>Warm weather, outdoor dining, energetic city. Sets a great tropical tone heading into a 9-night dive expedition.</div>
-  <div class="row-cell"><div class="neutral-badge">Consider this</div>Sydney winter → Indonesian tropical heat is a jarring body temperature contrast heading into an intense dive schedule.</div>
-</div>
-
-<!-- VERDICT -->
-<div class="verdict-section">
-  <div class="verdict-eyebrow">The verdict</div>
-  <div class="verdict-grid">
-    <div class="verdict-card seoul-card">
-      <div class="verdict-when">Choose Seoul if...</div>
-      <h3 class="seoul">Seoul</h3>
-      <p class="verdict-body">Cost efficiency matters, you want maximum routing flexibility, and you'd love a warm, energetic Asian city that's genuinely new for both of you. Seoul delivers world-class food, palace photography, and vibrant street culture — at a fraction of Sydney's cost, with cleaner onward routing and more flight options to Labuan Bajo.</p>
-      <div class="verdict-stats">
-        <div class="vstat"><span class="vstat-num seoul">9</span><span class="vstat-lbl">categories won</span></div>
-        <div class="vstat"><span class="vstat-num seoul">~$4k</span><span class="vstat-lbl">per person est.</span></div>
-        <div class="vstat"><span class="vstat-num seoul">22h</span><span class="vstat-lbl">total flying</span></div>
+    <!-- Coralia Liveaboard -->
+    <div class="res-card confirmed">
+      <div class="res-card-left">
+        <div class="res-card-icon">🚢</div>
+        <div class="res-card-phase">Liveaboard</div>
       </div>
-      <button class="choose-btn seoul-btn" onclick="showModal('seoul')">We choose Seoul</button>
-    </div>
-    <div class="verdict-card sydney-card">
-      <div class="verdict-when">Choose Sydney if...</div>
-      <h3 class="sydney">Sydney</h3>
-      <p class="verdict-body">Budget is not a constraint and Australia has always been on your bucket list. The whale watching, iconic harbour photography, English-speaking ease, and world-class food make Sydney extraordinary in July. You'd pay a significant premium flying in a less efficient direction — but if this is the trip to finally do Australia, that's a completely valid reason.</p>
-      <div class="verdict-stats">
-        <div class="vstat"><span class="vstat-num sydney">5</span><span class="vstat-lbl">categories won</span></div>
-        <div class="vstat"><span class="vstat-num sydney">~$9k</span><span class="vstat-lbl">per person est.</span></div>
-        <div class="vstat"><span class="vstat-num sydney">26h</span><span class="vstat-lbl">total flying</span></div>
-      </div>
-      <button class="choose-btn sydney-btn" onclick="showModal('sydney')">We choose Sydney</button>
-    </div>
-  </div>
-</div>
-
-<!-- VOTE -->
-<div class="vote-section">
-  <div class="vote-eyebrow">Cast your vote</div>
-  <div class="vote-grid">
-    <button class="vote-btn v-seoul" onclick="castVote('seoul')">Vote Seoul</button>
-    <div class="vote-vs">vs</div>
-    <button class="vote-btn v-sydney" onclick="castVote('sydney')">Vote Sydney</button>
-  </div>
-  <div class="vote-result" id="vote-result">
-    <div id="vote-text" style="font-size:13px;color:var(--muted);margin-bottom:8px;"></div>
-    <div class="vote-bar-wrap">
-      <div class="vote-bar-s" id="vote-bar-s" style="width:50%"></div>
-      <div class="vote-bar-sy"></div>
-    </div>
-  </div>
-</div>
-
-</div><!-- /main1 -->
-</div><!-- /panel-vs -->
-
-
-<!-- ═══════ TAB 2: ALL DESTINATIONS ═══════ -->
-<div class="tab-panel" id="panel-all">
-<div class="all-wrap">
-
-<div class="all-intro">
-  <p>All four destinations evaluated during trip planning — ranked from best to worst fit for this specific trip. Seoul and Sydney emerged as the top two finalists. Taipei and Hong Kong were ruled out but are shown here for full context.</p>
-</div>
-
-<!-- 4-city header -->
-<div class="all-score-header">
-  <div class="spacer2"></div>
-  <div class="all-score-col col-seoul">
-    <div class="all-city-name c-seoul">Seoul</div>
-    <div class="all-airline">Korean Air / Asiana<br>ICN</div>
-    <div class="rank-badge rank-1">#1 Recommended</div>
-  </div>
-  <div class="all-score-col col-sydney">
-    <div class="all-city-name c-sydney">Sydney</div>
-    <div class="all-airline">Qantas / United<br>SYD</div>
-    <div class="rank-badge rank-2">#2 Strong option</div>
-  </div>
-  <div class="all-score-col col-taipei">
-    <div class="all-city-name c-taipei">Taipei</div>
-    <div class="all-airline">EVA Air Royal Laurel<br>TPE</div>
-    <div class="rank-badge rank-3">#3 Ruled out</div>
-  </div>
-  <div class="all-score-col col-hk">
-    <div class="all-city-name c-hk">Hong Kong</div>
-    <div class="all-airline">Cathay Pacific<br>HKG</div>
-    <div class="rank-badge rank-4">#4 Not advised</div>
-  </div>
-</div>
-
-<div class="all-section-hdr"><div class="all-section-title">Cost — per person estimates</div></div>
-
-<div class="all-row">
-  <div class="all-row-label">Business Class LAX → City (round trip)</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Best</div><span class="all-cost c-seoul">~$3,200–$5,000</span><span class="all-cost-note">Korean Air / Asiana</span></div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">High</div><span class="all-cost c-sydney">~$7,500–$9,500</span><span class="all-cost-note">Qantas / United / Delta</span></div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">High</div><span class="all-cost c-taipei">~$5,353+</span><span class="all-cost-note">EVA Air Royal Laurel</span></div>
-  <div class="all-cell"><div class="all-badge ab-good">Mid</div><span class="all-cost c-hk">~$4,500–$6,000</span><span class="all-cost-note">Cathay Pacific</span></div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">City → LBJ hub leg (Business)</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Best</div><span class="all-cost c-seoul" style="font-size:14px">~$600–$1,200</span><span class="all-cost-note">Korean Air ICN→Bali nonstop</span></div>
-  <div class="all-cell"><div class="all-badge ab-neutral">Good</div><span class="all-cost c-sydney" style="font-size:14px">~$600–$1,100</span><span class="all-cost-note">Garuda SYD→Jakarta</span></div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Extra hop</div><span class="all-cost c-taipei" style="font-size:14px">~$400–$900</span><span class="all-cost-note">No direct TPE→Bali — adds connection</span></div>
-  <div class="all-cell"><div class="all-badge ab-neutral">Good</div><span class="all-cost c-hk" style="font-size:14px">~$800–$1,400</span><span class="all-cost-note">Cathay HKG→Bali</span></div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Estimated total per person</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Lowest</div><span class="all-cost c-seoul">~$3,880–$6,350</span></div>
-  <div class="all-cell danger"><div class="all-badge ab-avoid">Highest</div><span class="all-cost c-sydney">~$8,180–$10,750</span></div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Premium</div><span class="all-cost c-taipei">~$5,833–$7,400</span></div>
-  <div class="all-cell"><div class="all-badge ab-neutral">Mid-high</div><span class="all-cost c-hk">~$5,380–$7,550</span></div>
-</div>
-
-<div class="all-section-hdr"><div class="all-section-title">Routing & Flights</div></div>
-
-<div class="all-row">
-  <div class="all-row-label">Direction from LAX</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Best</div>Northwest toward Asia — every leg closer to LBJ</div>
-  <div class="all-cell danger"><div class="all-badge ab-avoid">Least efficient</div>Southwest past Indonesia then back north — significant detour</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Good</div>Northwest toward Asia — natural routing toward Indonesia</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Good</div>Northwest toward Asia — natural routing toward Indonesia</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Total flight hours (inbound)</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Least flying</div>~22 hrs total</div>
-  <div class="all-cell danger"><div class="all-badge ab-avoid">Most flying</div>~26 hrs total</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Extra connection</div>~25+ hrs — no direct TPE→Bali</div>
-  <div class="all-cell"><div class="all-badge ab-neutral">Average</div>~23 hrs total</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Flights/week to LBJ hub</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Most</div>14+ Korean Air flights/week ICN→Bali. Bali→LBJ: 122/month</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Fewer</div>~18 Garuda connecting flights/week SYD→LBJ</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Limited</div>Fewer TPE→LBJ options, primarily via AirAsia through Bali</div>
-  <div class="all-cell"><div class="all-badge ab-neutral">Good</div>8+ daily HKG→Jakarta. Multiple carriers.</div>
-</div>
-
-<div class="all-section-hdr"><div class="all-section-title">Experience — July 2027</div></div>
-
-<div class="all-row">
-  <div class="all-row-label">July weather</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Great</div>~75°F, warm & lively. Perfect pre-dive energy.</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Cool</div>~62°F winter. Good sightseeing, poor pre-dive vibe.</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Humid</div>Hot & humid, some typhoon risk in July.</div>
-  <div class="all-cell danger"><div class="all-badge ab-avoid">Typhoon season</div>July = active typhoon season. Real disruption risk — trip-ending potential.</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Food</div>
-  <div class="all-cell best"><div class="all-badge ab-best">World-class</div>Korean BBQ, street markets, Michelin. Every price point.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">World-class</div>Top seafood, multicultural dining, Blue Mountains Yulefest.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Excellent</div>Famous night markets, beef noodle, bubble tea origin, Michelin stalls.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Excellent</div>Legendary dim sum, Michelin density, incredible variety.</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Photography</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Excellent</div>Palaces, hanok village, street art, modern skyline.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Iconic</div>Opera House, Harbour Bridge, Bondi — globally recognisable.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Excellent</div>Temples, Taipei 101, night markets, mountain tea villages.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Iconic</div>Victoria Harbour, tram streets, skyline — stunning.</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Previously visited?</div>
-  <div class="all-cell best"><div class="all-badge ab-best">New</div>Neither Todd nor Mai Do have been. Fresh experience.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">New</div>Neither have been. Fresh experience.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">New</div>Neither have been. Fresh experience.</div>
-  <div class="all-cell best"><div class="all-badge ab-best">New</div>Neither have been. Fresh experience.</div>
-</div>
-
-<div class="all-row">
-  <div class="all-row-label">Why ruled out / ranked lower</div>
-  <div class="all-cell best"><div class="all-badge ab-best">Not ruled out</div>Top recommendation across all criteria.</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Cost</div>Excellent city but ~2x Seoul's cost for same experience quality, wrong direction.</div>
-  <div class="all-cell caution"><div class="all-badge ab-caution">Routing & cost</div>Premium airfare + no direct connection to Bali adds unnecessary complexity.</div>
-  <div class="all-cell danger"><div class="all-badge ab-avoid">Weather risk</div>July typhoon season creates genuine risk of missing the Coralia departure. Too risky.</div>
-</div>
-
-<!-- Destination Cards -->
-<div class="dest-cards">
-
-  <div class="dest-card d-seoul">
-    <div class="dest-card-header">
-      <div class="dest-card-city dc-seoul">Seoul</div>
-      <div class="dest-rank dr-1">#1 — Top Pick</div>
-    </div>
-    <div class="dest-tagline">"The smart choice — world-class city, best value, cleanest routing"</div>
-    <div class="dest-pros-cons">
-      <div class="dest-pros">
-        <div class="dest-pros-label">Pros</div>
-        Lowest total cost by far<br>
-        Cleanest routing to LBJ<br>
-        Most flights to LBJ hub<br>
-        Warm July weather<br>
-        Korean Air Business Class<br>
-        Palaces + street photography<br>
-        World-class food at all levels
-      </div>
-      <div class="dest-cons">
-        <div class="dest-cons-label">Cons</div>
-        Occasional July showers<br>
-        K-ETA required (minor)<br>
-        —
-      </div>
-    </div>
-    <div class="dest-cost-row">
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--seoul)">~$4k</div><div class="dest-cost-lbl">per person est.</div></div>
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--seoul)">22h</div><div class="dest-cost-lbl">total flying</div></div>
-    </div>
-  </div>
-
-  <div class="dest-card d-sydney">
-    <div class="dest-card-header">
-      <div class="dest-card-city dc-sydney">Sydney</div>
-      <div class="dest-rank dr-2">#2 — Strong Option</div>
-    </div>
-    <div class="dest-tagline">"Bucket-list city — worth it if Australia is the dream, not otherwise"</div>
-    <div class="dest-pros-cons">
-      <div class="dest-pros">
-        <div class="dest-pros-label">Pros</div>
-        English-speaking — zero barrier<br>
-        Iconic Opera House / Bridge<br>
-        July whale watching season<br>
-        Qantas Business Class excellent<br>
-        World-class multicultural food<br>
-        Clear winter skies, dry weather<br>
-        Garuda covers full SYD→LBJ route
-      </div>
-      <div class="dest-cons">
-        <div class="dest-cons-label">Cons</div>
-        ~2x Seoul's total cost<br>
-        Flies the wrong direction<br>
-        4 more hours of flying<br>
-        Cool winter before tropical dive<br>
-        Fewer LBJ flight options
-      </div>
-    </div>
-    <div class="dest-cost-row">
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--sydney)">~$9k</div><div class="dest-cost-lbl">per person est.</div></div>
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--sydney)">26h</div><div class="dest-cost-lbl">total flying</div></div>
-    </div>
-  </div>
-
-  <div class="dest-card d-taipei">
-    <div class="dest-card-header">
-      <div class="dest-card-city dc-taipei">Taipei</div>
-      <div class="dest-rank dr-3">#3 — Ruled Out</div>
-    </div>
-    <div class="dest-tagline">"Asia's hidden gem — premium product, but routing is messier than Seoul"</div>
-    <div class="dest-pros-cons">
-      <div class="dest-pros">
-        <div class="dest-pros-label">Pros</div>
-        EVA Royal Laurel — best Business Class product trans-Pacific<br>
-        Night markets, tea culture, temples<br>
-        Taipei 101, mountain villages<br>
-        Authentic, unhurried atmosphere<br>
-        Less visited by Americans
-      </div>
-      <div class="dest-cons">
-        <div class="dest-cons-label">Cons</div>
-        No direct TPE→Bali — adds extra connection<br>
-        Pricier airfare than Seoul<br>
-        Hot & humid July with some typhoon risk<br>
-        Fewer LBJ onward options
-      </div>
-    </div>
-    <div class="dest-cost-row">
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--taipei)">~$6.5k</div><div class="dest-cost-lbl">per person est.</div></div>
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--taipei)">25h+</div><div class="dest-cost-lbl">total flying</div></div>
-    </div>
-  </div>
-
-  <div class="dest-card d-hk">
-    <div class="dest-card-header">
-      <div class="dest-card-city dc-hk">Hong Kong</div>
-      <div class="dest-rank dr-4">#4 — Not Advised</div>
-    </div>
-    <div class="dest-tagline">"World-class city, world-class airline — but July typhoons are a dealbreaker"</div>
-    <div class="dest-pros-cons">
-      <div class="dest-pros">
-        <div class="dest-pros-label">Pros</div>
-        Cathay Pacific — one of the world's best Business Class products<br>
-        Legendary food and photography<br>
-        Airport Express to city in 22 min<br>
-        Good onward routing via Jakarta/Bali
-      </div>
-      <div class="dest-cons">
-        <div class="dest-cons-label">Cons</div>
-        July = typhoon season — storms can cancel flights and shut the city<br>
-        Missing Coralia departure due to typhoon = no refund<br>
-        Premium airfare, not the cheapest<br>
-        Political climate has changed the city feel
-      </div>
-    </div>
-    <div class="dest-cost-row">
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:var(--hk)">~$6.5k</div><div class="dest-cost-lbl">per person est.</div></div>
-      <div class="dest-cost-box"><div class="dest-cost-num" style="color:#A32D2D">HIGH RISK</div><div class="dest-cost-lbl">July weather</div></div>
-    </div>
-  </div>
-
-</div><!-- /dest-cards -->
-
-</div><!-- /all-wrap -->
-</div><!-- /panel-all -->
-
-
-<!-- ═══════ TAB 3: LABUAN BAJO RESORTS ═══════ -->
-<div class="tab-panel" id="panel-resorts">
-<!-- HERO -->
-<div class="r3-hero">
-  <div class="r3-hero-bg"></div>
-  <div class="r3-stars" id="r3-stars"></div>
-  <div class="r3-waves">
-    <div class="r3-wave"></div>
-    <div class="r3-wave"></div>
-    <div class="r3-wave"></div>
-  </div>
-  <div class="r3-hero-content">
-    <div class="r3-hero-tag">Coralia Liveaboard · Pre-Departure Stay</div>
-    <h1>Labuan Bajo<br><em>Resort Guide</em></h1>
-    <div class="r3-hero-dates">
-      <div class="r3-date-chip">Arrive <strong>July 29, 2027</strong></div>
-      <div class="r3-date-chip">Coralia departs <strong>July 30, 2027</strong></div>
-      <div class="r3-date-chip">Stay <strong>1 night</strong> pre-liveaboard</div>
-      <div class="r3-date-chip">Airport <strong>LBJ · 10 min away</strong></div>
-    </div>
-  </div>
-</div>
-
-<!-- INTRO BAR -->
-<div class="r3-intro-bar">
-  <div class="r3-intro-bar-inner">
-    <div class="r3-intro-text">
-      <p>You'll arrive in Labuan Bajo 1 day before the Coralia departs on July 30. These are the finest resorts in the area — ordered by overall fit for a couple seeking luxury, stunning views, and a seamless lead-in to a 9-night dive expedition.</p>
-    </div>
-    <div class="r3-intro-stats">
-      <div class="r3-stat">
-        <span class="r3-stat-num">4</span>
-        <span class="r3-stat-lbl">Resorts reviewed</span>
-      </div>
-      <div class="r3-stat">
-        <span class="r3-stat-num">2</span>
-        <span class="r3-stat-lbl">Nights to book</span>
-      </div>
-      <div class="r3-stat">
-        <span class="r3-stat-num">10'</span>
-        <span class="r3-stat-lbl">From airport</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- RESORT CARDS -->
-<div class="r3-section">
-  <div class="r3-section-eyebrow">Top picks</div>
-  <div class="r3-section-title">The finest stays in Labuan Bajo</div>
-
-  <div class="r3-resort-grid">
-
-    <!-- RESORT 1: AYANA -->
-    <div class="r3-resort-card r3-featured">
-      <div class="r3-resort-inner">
-        <div class="r3-resort-img">
-          <svg class="r3-ocean-scene" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0B2535"/>
-                <stop offset="60%" stop-color="#1A4A6E"/>
-                <stop offset="100%" stop-color="#2E7FAA"/>
-              </linearGradient>
-              <linearGradient id="sea1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1E6B8A"/>
-                <stop offset="100%" stop-color="#0D3D52"/>
-              </linearGradient>
-              <linearGradient id="sun1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" stop-color="#F4C430" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#E87040" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <rect width="600" height="400" fill="url(#sky1)"/>
-            <!-- Sun glow -->
-            <circle cx="300" cy="220" r="120" fill="#E87040" opacity="0.12"/>
-            <circle cx="300" cy="230" r="28" fill="#F9C840" opacity="0.9"/>
-            <circle cx="300" cy="230" r="18" fill="#FDE880"/>
-            <!-- Sun reflection on water -->
-            <ellipse cx="300" cy="300" rx="80" ry="20" fill="#F9C840" opacity="0.2"/>
-            <!-- Sea -->
-            <rect x="0" y="260" width="600" height="140" fill="url(#sea1)"/>
-            <!-- Wave lines -->
-            <path d="M0 275 Q150 268 300 276 Q450 284 600 275" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <path d="M0 290 Q100 283 200 291 Q350 299 600 288" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- Resort silhouette: elevated building -->
-            <rect x="80" y="190" width="180" height="75" rx="3" fill="#0D2535" opacity="0.85"/>
-            <rect x="95" y="175" width="150" height="20" rx="2" fill="#0F2D40" opacity="0.85"/>
-            <!-- Windows lit up -->
-            <rect x="96" y="198" width="18" height="12" rx="1" fill="#F9C840" opacity="0.7"/>
-            <rect x="122" y="198" width="18" height="12" rx="1" fill="#F9C840" opacity="0.5"/>
-            <rect x="148" y="198" width="18" height="12" rx="1" fill="#F9C840" opacity="0.8"/>
-            <rect x="174" y="198" width="18" height="12" rx="1" fill="#F9C840" opacity="0.6"/>
-            <rect x="200" y="198" width="18" height="12" rx="1" fill="#F9C840" opacity="0.7"/>
-            <rect x="96" y="218" width="18" height="10" rx="1" fill="#F9C840" opacity="0.4"/>
-            <rect x="148" y="218" width="18" height="10" rx="1" fill="#F9C840" opacity="0.5"/>
-            <rect x="200" y="218" width="18" height="10" rx="1" fill="#F9C840" opacity="0.3"/>
-            <!-- Infinity pool -->
-            <rect x="80" y="262" width="180" height="14" rx="2" fill="#2E9EC4" opacity="0.6"/>
-            <path d="M80 265 Q170 260 260 265" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <!-- Jetty / pier -->
-            <rect x="290" y="252" width="6" height="28" fill="#4A3010" opacity="0.7"/>
-            <rect x="270" y="260" width="46" height="5" rx="1" fill="#5A3C15" opacity="0.7"/>
-            <!-- Islands in distance -->
-            <ellipse cx="450" cy="252" rx="55" ry="20" fill="#0E2A38" opacity="0.7"/>
-            <ellipse cx="530" cy="258" rx="35" ry="14" fill="#0E2A38" opacity="0.5"/>
-            <!-- Stars -->
-            <circle cx="60" cy="40" r="1" fill="white" opacity="0.7"/>
-            <circle cx="180" cy="60" r="0.8" fill="white" opacity="0.6"/>
-            <circle cx="380" cy="30" r="1" fill="white" opacity="0.8"/>
-            <circle cx="480" cy="55" r="0.7" fill="white" opacity="0.5"/>
-            <circle cx="540" cy="35" r="1" fill="white" opacity="0.7"/>
-            <circle cx="100" cy="80" r="0.6" fill="white" opacity="0.6"/>
-            <!-- Text label -->
-            <text x="170" y="155" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">WAECICU BEACH</text>
-          </svg>
-          <div class="r3-resort-rank r3-gold-rank">1</div>
-          <div class="r3-featured-badge">Top Pick</div>
-        </div>
-        <div class="r3-resort-body">
-          <div>
-            <div class="r3-resort-brand">AYANA Hotels · 5-star</div>
-            <div class="r3-resort-name">AYANA Komodo<br>Waecicu Beach</div>
-            <div class="r3-resort-location">Waecicu Beach · 10 min from LBJ airport</div>
-            <p class="r3-resort-desc">The undisputed benchmark for luxury in Labuan Bajo. AYANA commands a prime beachfront position with a 250-metre private jetty stretching into the Flores Sea, rooftop bar with panoramic sunset views, and 205 ocean-facing rooms. The on-site dive club, manta ray snorkelling, and direct water sports access make this especially perfect as a pre-liveaboard stay — you can test gear, acclimatise, and ease into the marine world before the Coralia departs. Tripadvisor's #1 or #2 rated hotel in Labuan Bajo consistently.</p>
-            <div class="r3-resort-highlights">
-              <span class="r3-highlight-tag">Private beach</span>
-              <span class="r3-highlight-tag">250m jetty</span>
-              <span class="r3-highlight-tag">Rooftop sunset bar</span>
-              <span class="r3-highlight-tag">Dive club on-site</span>
-              <span class="r3-highlight-tag">2 infinity pools</span>
-              <span class="r3-highlight-tag">3 restaurants</span>
-              <span class="r3-highlight-tag">Full spa</span>
-              <span class="r3-highlight-tag">Kayak to private island</span>
-            </div>
-          </div>
-          <div>
-            <div class="r3-resort-meta">
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Nightly rate (est.)</div>
-                <div class="r3-meta-value r3-price">$165–$280</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">2-night stay (est.)</div>
-                <div class="r3-meta-value r3-price">$330–$560</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Best room for couples</div>
-                <div class="r3-meta-value">Deluxe Ocean View</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Loyalty program</div>
-                <div class="r3-meta-value r3-recommended">AYANA Miles</div>
-              </div>
-            </div>
-            <div class="r3-resort-cta">
-              <a href="https://www.ayana.com/labuan-bajo/komodo/" target="_blank" class="r3-btn-primary">View resort</a>
-              <a href="https://www.booking.com/hotel/id/ayana-komodo-resort-waecicu-beach.html" target="_blank" class="r3-btn-outline">Check rates</a>
-            </div>
-          </div>
+      <div class="res-card-body">
+        <div class="res-card-title">Coralia Liveaboard</div>
+        <div class="res-card-sub">Komodo &amp; Sumbawa &middot; Master Cabin &middot; 2 Adults</div>
+        <div class="res-card-dates">📅 Jul 30 – Aug 8, 2027 &middot; <strong>9 Nights</strong></div>
+        <div class="res-card-meta">
+          <span class="res-meta-item">🔖 Invoice #6075</span>
+          <span class="res-meta-item">💳 Balance ~$7,948.88 due <strong>May 1, 2027</strong> via wire transfer</span>
+          <span class="res-meta-item">📧 info@coralia-liveaboard.com</span>
         </div>
       </div>
+      <div class="res-card-badge"><span class="confirmed-badge">✓ Confirmed</span></div>
     </div>
 
-    <!-- RESORT 2: TA'AKTANA -->
-    <div class="r3-resort-card">
-      <div class="r3-resort-inner">
-        <div class="r3-resort-img">
-          <svg class="r3-ocean-scene" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1A2820"/>
-                <stop offset="50%" stop-color="#2D5A3A"/>
-                <stop offset="100%" stop-color="#3A7A6E"/>
-              </linearGradient>
-              <linearGradient id="sea2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1A5A6E"/>
-                <stop offset="100%" stop-color="#0A2830"/>
-              </linearGradient>
-            </defs>
-            <rect width="600" height="400" fill="url(#sky2)"/>
-            <!-- Moonrise -->
-            <circle cx="480" cy="90" r="35" fill="rgba(245,235,195,0.15)"/>
-            <circle cx="480" cy="90" r="22" fill="#F5EBC3" opacity="0.8"/>
-            <circle cx="480" cy="90" r="16" fill="#FDF5D8" opacity="0.9"/>
-            <!-- Moon reflection -->
-            <ellipse cx="480" cy="310" rx="50" ry="12" fill="#F5EBC3" opacity="0.15"/>
-            <!-- Sea -->
-            <rect x="0" y="270" width="600" height="130" fill="url(#sea2)"/>
-            <!-- Overwater villas -->
-            <rect x="60" y="235" width="100" height="50" rx="4" fill="#1A1A12" opacity="0.9"/>
-            <rect x="175" y="242" width="90" height="44" rx="4" fill="#1A1A12" opacity="0.85"/>
-            <rect x="280" y="238" width="100" height="48" rx="4" fill="#1A1A12" opacity="0.9"/>
-            <!-- Thatched roofs -->
-            <path d="M55 237 L110 215 L165 237 Z" fill="#3A2A10" opacity="0.9"/>
-            <path d="M170 243 L220 223 L270 243 Z" fill="#3A2A10" opacity="0.85"/>
-            <path d="M275 239 L330 218 L385 239 Z" fill="#3A2A10" opacity="0.9"/>
-            <!-- Villa lights warm glow -->
-            <rect x="72" y="244" width="14" height="10" rx="1" fill="#F9C840" opacity="0.8"/>
-            <rect x="92" y="244" width="14" height="10" rx="1" fill="#F9C840" opacity="0.6"/>
-            <rect x="188" y="250" width="12" height="9" rx="1" fill="#F9C840" opacity="0.7"/>
-            <rect x="206" y="250" width="12" height="9" rx="1" fill="#F9C840" opacity="0.5"/>
-            <rect x="292" y="246" width="14" height="10" rx="1" fill="#F9C840" opacity="0.8"/>
-            <rect x="312" y="246" width="14" height="10" rx="1" fill="#F9C840" opacity="0.6"/>
-            <!-- Stilts/posts into water -->
-            <line x1="85" y1="284" x2="85" y2="310" stroke="#3A2A10" stroke-width="3" opacity="0.6"/>
-            <line x1="110" y1="284" x2="110" y2="315" stroke="#3A2A10" stroke-width="3" opacity="0.6"/>
-            <line x1="140" y1="284" x2="140" y2="312" stroke="#3A2A10" stroke-width="3" opacity="0.6"/>
-            <line x1="200" y1="285" x2="200" y2="314" stroke="#3A2A10" stroke-width="2.5" opacity="0.6"/>
-            <line x1="225" y1="285" x2="225" y2="316" stroke="#3A2A10" stroke-width="2.5" opacity="0.6"/>
-            <line x1="305" y1="285" x2="305" y2="312" stroke="#3A2A10" stroke-width="3" opacity="0.6"/>
-            <line x1="335" y1="285" x2="335" y2="315" stroke="#3A2A10" stroke-width="3" opacity="0.6"/>
-            <!-- Boardwalk connecting villas -->
-            <rect x="155" y="263" width="25" height="4" fill="#5A3A15" opacity="0.6"/>
-            <rect x="265" y="261" width="20" height="4" fill="#5A3A15" opacity="0.6"/>
-            <!-- Shoreline foliage -->
-            <ellipse cx="30" cy="265" rx="38" ry="25" fill="#1A3A20" opacity="0.9"/>
-            <ellipse cx="10" cy="255" rx="25" ry="18" fill="#1A4020" opacity="0.8"/>
-            <!-- Main resort building onshore -->
-            <rect x="380" y="190" width="200" height="90" rx="3" fill="#0D1C10" opacity="0.9"/>
-            <rect x="390" y="180" width="180" height="15" rx="2" fill="#152A18" opacity="0.8"/>
-            <!-- Resort lights -->
-            <rect x="392" y="198" width="16" height="11" rx="1" fill="#F9C840" opacity="0.6"/>
-            <rect x="416" y="198" width="16" height="11" rx="1" fill="#F9C840" opacity="0.4"/>
-            <rect x="440" y="198" width="16" height="11" rx="1" fill="#F9C840" opacity="0.7"/>
-            <rect x="464" y="198" width="16" height="11" rx="1" fill="#F9C840" opacity="0.5"/>
-            <rect x="488" y="198" width="16" height="11" rx="1" fill="#F9C840" opacity="0.6"/>
-            <!-- Wave highlights -->
-            <path d="M0 285 Q80 278 160 286 Q280 294 400 283 Q500 274 600 282" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- Stars -->
-            <circle cx="40" cy="50" r="1" fill="white" opacity="0.6"/>
-            <circle cx="120" cy="35" r="0.8" fill="white" opacity="0.5"/>
-            <circle cx="220" cy="60" r="1" fill="white" opacity="0.7"/>
-            <circle cx="320" cy="40" r="0.7" fill="white" opacity="0.6"/>
-            <circle cx="560" cy="50" r="1" fill="white" opacity="0.5"/>
-            <text x="220" y="165" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WAE RANA BEACH</text>
-          </svg>
-          <div class="r3-resort-rank">2</div>
+    <!-- AYANA Komodo -->
+    <div class="res-card confirmed">
+      <div class="res-card-left">
+        <div class="res-card-icon">🏝</div>
+        <div class="res-card-phase">Pre-Stay</div>
+      </div>
+      <div class="res-card-body">
+        <div class="res-card-title">AYANA Komodo Waecicu Beach</div>
+        <div class="res-card-sub">Deluxe Ocean View Room &middot; King Bed &middot; High Floor &middot; 2 Adults</div>
+        <div class="res-card-dates">📅 Jul 29 → Jul 30, 2027 &middot; <strong>1 Night</strong> &nbsp; ⏰ Check-in 15:00 &middot; Check-out 12:00</div>
+        <div class="res-card-meta">
+          <span class="res-meta-item">🔖 Conf# <strong>AB-4WENWDJS</strong></span>
+          <span class="res-meta-item">💳 ~US$199.34 (Rp 3,599,750 incl. 11% tax + 10% service) &middot; <strong>Pay at Hotel</strong> &middot; Cashless only</span>
+          <span class="res-meta-item">🚫 Free cancellation before <strong>Jul 22, 2027</strong> (00:00 GMT+8) &middot; Late cancel fee: ~US$199.34</span>
+          <span class="res-meta-item">💳 Deposit: IDR 2,500,000 pre-auth at check-in</span>
+          <span class="res-meta-item">📧 reservation.komodo@ayana.com &middot; (+62) 385 2441000</span>
         </div>
-        <div class="r3-resort-body">
-          <div>
-            <div class="r3-resort-brand">Marriott · The Luxury Collection · 5-star</div>
-            <div class="r3-resort-name">TA'AKTANA<br>Luxury Collection Resort</div>
-            <div class="r3-resort-location">Wae Rana Beach · 2.5 km from LBJ airport</div>
-            <p class="r3-resort-desc">The most architecturally distinctive resort in Labuan Bajo — Marriott's The Luxury Collection property inspired by the Lingko spider-web rice fields of Flores. Overwater Sea Villas with 24/7 butler service float above the Flores Sea, featuring floor-to-ceiling bathroom windows and macramé artwork. The rooftop Taba restaurant, in-house coffee roastery, and overwater bar are signature experiences. Marriott Bonvoy members can redeem points here. Opened 2023 — the newest and arguably most luxurious resort in town.</p>
-            <div class="r3-resort-highlights">
-              <span class="r3-highlight-tag">Overwater sea villas</span>
-              <span class="r3-highlight-tag">24/7 butler service</span>
-              <span class="r3-highlight-tag">Olympic pool</span>
-              <span class="r3-highlight-tag">Rooftop restaurant</span>
-              <span class="r3-highlight-tag">Private beach</span>
-              <span class="r3-highlight-tag">Coffee roastery</span>
-              <span class="r3-highlight-tag">Di'a Spa</span>
-              <span class="r3-highlight-tag">Marriott Bonvoy</span>
-            </div>
-          </div>
-          <div>
-            <div class="r3-resort-meta">
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Nightly rate (est.)</div>
-                <div class="r3-meta-value r3-price">$320–$800</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">2-night stay (est.)</div>
-                <div class="r3-meta-value r3-price">$640–$1,600</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Best room for couples</div>
-                <div class="r3-meta-value">Overwater Sea Villa</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Loyalty program</div>
-                <div class="r3-meta-value r3-recommended">Marriott Bonvoy points</div>
-              </div>
-            </div>
-            <div class="r3-resort-cta">
-              <a href="https://www.marriott.com/en-us/hotels/lbjlc-taaktana-a-luxury-collection-resort-and-spa-labuan-bajo/overview/" target="_blank" class="r3-btn-primary">View resort</a>
-              <a href="https://www.booking.com/hotel/id/ta-aktana-a-luxury-collection-resort-spa-labuan-bajo.html" target="_blank" class="r3-btn-outline">Check rates</a>
-            </div>
-          </div>
+        <div class="res-card-rate">Rate Plan: Member Rate – Silver &middot; Room Only &middot; No Breakfast &middot; Base rate ~US$164.75/night &middot; Conf sent to todd_s_reimer@yahoo.com</div>
+      </div>
+      <div class="res-card-badge"><span class="confirmed-badge">✓ Confirmed</span></div>
+    </div>
+
+    <div class="res-section-label pending-lbl" style="margin-top:28px;">⏳ Not Yet Booked</div>
+
+    <!-- Four Seasons Seoul -->
+    <div class="res-card pending">
+      <div class="res-card-left">
+        <div class="res-card-icon">🇰🇷</div>
+        <div class="res-card-phase">Seoul</div>
+      </div>
+      <div class="res-card-body">
+        <div class="res-card-title">Four Seasons Hotel Seoul</div>
+        <div class="res-card-sub">97 Saemunan-ro, Jongno-gu &middot; Gwanghwamun / Gyeongbokgung area</div>
+        <div class="res-card-dates">📅 ~Jul 25–28, 2027 &middot; <strong>~3 Nights</strong> <span class="res-date-note">(arrival date TBD — depends on outbound flight)</span></div>
+        <div class="res-card-meta">
+          <span class="res-meta-item">💳 ~$3,136–$3,948 est. for 3–4 nights (based on current direct rates)</span>
+          <span class="res-meta-item">⚠️ Peak summer — book as soon as flights are confirmed</span>
         </div>
       </div>
+      <div class="res-card-badge"><span class="pending-badge">⏳ Pending</span></div>
     </div>
 
-    <!-- RESORT 3: PLATARAN -->
-    <div class="r3-resort-card">
-      <div class="r3-resort-inner">
-        <div class="r3-resort-img">
-          <svg class="r3-ocean-scene" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#3A1A08"/>
-                <stop offset="40%" stop-color="#8B3A10"/>
-                <stop offset="70%" stop-color="#D4601A"/>
-                <stop offset="100%" stop-color="#E88030"/>
-              </linearGradient>
-              <linearGradient id="sea3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#C05818"/>
-                <stop offset="50%" stop-color="#6B2808"/>
-                <stop offset="100%" stop-color="#1A0A04"/>
-              </linearGradient>
-            </defs>
-            <rect width="600" height="400" fill="url(#sky3)"/>
-            <!-- Setting sun -->
-            <circle cx="300" cy="260" r="50" fill="#FFD080" opacity="0.95"/>
-            <circle cx="300" cy="260" r="35" fill="#FFE8A0"/>
-            <circle cx="300" cy="260" r="22" fill="#FFFBE0"/>
-            <!-- Sun rays -->
-            <line x1="300" y1="200" x2="300" y2="185" stroke="#FFD080" stroke-width="2" opacity="0.4"/>
-            <line x1="342" y1="218" x2="352" y2="207" stroke="#FFD080" stroke-width="2" opacity="0.3"/>
-            <line x1="360" y1="258" x2="378" y2="258" stroke="#FFD080" stroke-width="2" opacity="0.3"/>
-            <line x1="258" y1="218" x2="248" y2="207" stroke="#FFD080" stroke-width="2" opacity="0.3"/>
-            <line x1="240" y1="258" x2="222" y2="258" stroke="#FFD080" stroke-width="2" opacity="0.3"/>
-            <!-- Horizon glow -->
-            <ellipse cx="300" cy="270" rx="280" ry="40" fill="#E86020" opacity="0.3"/>
-            <!-- Sea with sun reflection -->
-            <rect x="0" y="268" width="600" height="132" fill="url(#sea3)"/>
-            <!-- Sun path on water -->
-            <ellipse cx="300" cy="285" rx="120" ry="18" fill="#FFD080" opacity="0.35"/>
-            <ellipse cx="300" cy="300" rx="80" ry="10" fill="#FFD080" opacity="0.2"/>
-            <!-- Bungalows among trees -->
-            <ellipse cx="80" cy="240" rx="60" ry="40" fill="#1A3A10" opacity="0.95"/>
-            <ellipse cx="160" cy="235" rx="50" ry="35" fill="#1E4015" opacity="0.9"/>
-            <ellipse cx="420" cy="238" rx="55" ry="38" fill="#1A3A10" opacity="0.95"/>
-            <ellipse cx="510" cy="243" rx="45" ry="32" fill="#1E4015" opacity="0.9"/>
-            <!-- Bungalow structures peeking through trees -->
-            <rect x="60" y="235" width="55" height="35" rx="3" fill="#2A1A05" opacity="0.85"/>
-            <path d="M55 237 L87 218 L120 237 Z" fill="#4A2A08" opacity="0.9"/>
-            <rect x="145" y="237" width="50" height="32" rx="3" fill="#2A1A05" opacity="0.8"/>
-            <path d="M140 238 L170 220 L202 238 Z" fill="#4A2A08" opacity="0.85"/>
-            <!-- Lights in bungalows -->
-            <rect x="70" y="243" width="12" height="9" rx="1" fill="#F9C840" opacity="0.9"/>
-            <rect x="88" y="243" width="12" height="9" rx="1" fill="#F9C840" opacity="0.7"/>
-            <rect x="155" y="244" width="11" height="8" rx="1" fill="#F9C840" opacity="0.8"/>
-            <!-- Beach bar/deck -->
-            <rect x="240" y="255" width="120" height="18" rx="2" fill="#3A2008" opacity="0.8"/>
-            <rect x="250" y="248" width="100" height="9" rx="1" fill="#4A2A10" opacity="0.7"/>
-            <!-- People silhouettes on deck -->
-            <ellipse cx="268" cy="250" rx="5" ry="8" fill="#1A0A04" opacity="0.7"/>
-            <ellipse cx="300" cy="249" rx="5" ry="9" fill="#1A0A04" opacity="0.7"/>
-            <ellipse cx="332" cy="250" rx="5" ry="8" fill="#1A0A04" opacity="0.7"/>
-            <!-- Beach umbrella -->
-            <line x1="220" y1="240" x2="220" y2="262" stroke="#5A3010" stroke-width="2"/>
-            <ellipse cx="220" cy="240" rx="22" ry="8" fill="#C44020" opacity="0.7"/>
-            <!-- Waves -->
-            <path d="M0 278 Q100 270 200 279 Q350 288 600 275" fill="none" stroke="rgba(255,200,80,0.25)" stroke-width="1.5"/>
-            <!-- Silhouette islands -->
-            <ellipse cx="500" cy="265" rx="70" ry="22" fill="#1A0805" opacity="0.8"/>
-            <ellipse cx="560" cy="270" rx="45" ry="16" fill="#1A0805" opacity="0.7"/>
-          </svg>
-          <div class="r3-resort-rank">3</div>
-        </div>
-        <div class="r3-resort-body">
-          <div>
-            <div class="r3-resort-brand">Plataran Indonesia · 5-star boutique</div>
-            <div class="r3-resort-name">Plataran Komodo<br>Resort & Spa</div>
-            <div class="r3-resort-location">Waecicu Beach · boat transfer from Labuan Bajo (10 min)</div>
-            <p class="r3-resort-desc">Perched on a private cove along Waecicu Beach — widely regarded as having the best sunsets in Labuan Bajo — Plataran is an intimate 18-villa Javanese-style boutique retreat. Accessible by a short boat ride, the seclusion creates an extraordinary sense of escape. The private beach, coral reef just off the jetty for snorkelling, and "Atlantis on the Rock" restaurant over the water make this the most romantic option. Recent guests describe it as "the best resort I have stayed in." Ideal if you want maximum peace and intimacy before the liveaboard.</p>
-            <div class="r3-resort-highlights">
-              <span class="r3-highlight-tag">Private cove + beach</span>
-              <span class="r3-highlight-tag">Boat transfer only</span>
-              <span class="r3-highlight-tag">Best sunsets in LBJ</span>
-              <span class="r3-highlight-tag">18 villas only</span>
-              <span class="r3-highlight-tag">Snorkel off jetty</span>
-              <span class="r3-highlight-tag">Overwater restaurant</span>
-              <span class="r3-highlight-tag">Hanging pool villa</span>
-              <span class="r3-highlight-tag">Bicycles included</span>
-            </div>
-          </div>
-          <div>
-            <div class="r3-resort-meta">
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Nightly rate (est.)</div>
-                <div class="r3-meta-value r3-price">$235–$550</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">2-night stay (est.)</div>
-                <div class="r3-meta-value r3-price">$470–$1,100</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Best room for couples</div>
-                <div class="r3-meta-value">Hanging Pool Residence</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Access</div>
-                <div class="r3-meta-value">Boat transfer from town</div>
-              </div>
-            </div>
-            <div class="r3-resort-cta">
-              <a href="https://www.plataran.com/plataran-komodo" target="_blank" class="r3-btn-primary">View resort</a>
-              <a href="https://www.booking.com/hotel/id/plataran-komodo-beach-resort.html" target="_blank" class="r3-btn-outline">Check rates</a>
-            </div>
-          </div>
+    <!-- InterContinental Bali -->
+    <div class="res-card pending">
+      <div class="res-card-left">
+        <div class="res-card-icon">🌴</div>
+        <div class="res-card-phase">Bali</div>
+      </div>
+      <div class="res-card-body">
+        <div class="res-card-title">InterContinental Bali Resort</div>
+        <div class="res-card-sub">Jimbaran Bay &middot; ~15 min to Ngurah Rai Airport (DPS)</div>
+        <div class="res-card-dates">📅 Jul 28 → Jul 29, 2027 &middot; <strong>1 Night</strong></div>
+        <div class="res-card-meta">
+          <span class="res-meta-item">💳 ~$200–$350/night est. &middot; IHG points eligible</span>
+          <span class="res-meta-item">⚠️ Book Jan 2027 — peak season fills fast</span>
         </div>
       </div>
+      <div class="res-card-badge"><span class="pending-badge">⏳ Pending</span></div>
     </div>
 
-    <!-- RESORT 4: SUDAMALA -->
-    <div class="r3-resort-card">
-      <div class="r3-resort-inner">
-        <div class="r3-resort-img">
-          <svg class="r3-ocean-scene" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0A1828"/>
-                <stop offset="40%" stop-color="#16304A"/>
-                <stop offset="100%" stop-color="#2A5A7A"/>
-              </linearGradient>
-              <linearGradient id="sea4" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1E5A78"/>
-                <stop offset="100%" stop-color="#0A2030"/>
-              </linearGradient>
-            </defs>
-            <rect width="600" height="400" fill="url(#sky4)"/>
-            <!-- Milky way / star band -->
-            <path d="M0 80 Q200 50 400 70 Q500 78 600 55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="20"/>
-            <!-- Stars scattered -->
-            <circle cx="45" cy="30" r="1.2" fill="white" opacity="0.8"/>
-            <circle cx="95" cy="50" r="0.8" fill="white" opacity="0.6"/>
-            <circle cx="140" cy="20" r="1" fill="white" opacity="0.7"/>
-            <circle cx="200" cy="65" r="0.9" fill="white" opacity="0.5"/>
-            <circle cx="250" cy="35" r="1.1" fill="white" opacity="0.8"/>
-            <circle cx="310" cy="55" r="0.8" fill="white" opacity="0.6"/>
-            <circle cx="360" cy="25" r="1" fill="white" opacity="0.7"/>
-            <circle cx="420" cy="45" r="0.9" fill="white" opacity="0.5"/>
-            <circle cx="470" cy="70" r="1" fill="white" opacity="0.6"/>
-            <circle cx="530" cy="30" r="1.2" fill="white" opacity="0.8"/>
-            <circle cx="570" cy="55" r="0.8" fill="white" opacity="0.6"/>
-            <!-- Crescent moon -->
-            <circle cx="520" cy="75" r="22" fill="#F0E8C0" opacity="0.85"/>
-            <circle cx="530" cy="68" r="18" fill="#1A304A"/>
-            <!-- Sea -->
-            <rect x="0" y="270" width="600" height="130" fill="url(#sea4)"/>
-            <!-- Modern resort building -->
-            <rect x="100" y="185" width="280" height="100" rx="4" fill="#0A1820" opacity="0.95"/>
-            <rect x="110" y="175" width="260" height="16" rx="2" fill="#0E2030" opacity="0.9"/>
-            <rect x="130" y="163" width="220" height="16" rx="2" fill="#122438" opacity="0.85"/>
-            <!-- Floor-to-ceiling windows (lit) -->
-            <rect x="116" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.2"/>
-            <rect x="146" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.35"/>
-            <rect x="176" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.25"/>
-            <rect x="206" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.4"/>
-            <rect x="236" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.2"/>
-            <rect x="266" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.35"/>
-            <rect x="296" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.3"/>
-            <rect x="326" y="190" width="22" height="40" rx="1" fill="#F9C840" opacity="0.2"/>
-            <!-- Pool -->
-            <rect x="100" y="283" width="280" height="16" rx="2" fill="#1E88B4" opacity="0.55"/>
-            <path d="M100 286 Q240 280 380 286" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-            <!-- Pool lighting glow -->
-            <ellipse cx="240" cy="290" rx="130" ry="12" fill="#1E88B4" opacity="0.15"/>
-            <!-- Gardens/palms -->
-            <ellipse cx="60" cy="255" rx="45" ry="30" fill="#0E2A18" opacity="0.9"/>
-            <line x1="60" y1="235" x2="58" y2="215" stroke="#1A3A10" stroke-width="4"/>
-            <ellipse cx="58" cy="213" rx="18" ry="10" fill="#0E2818" opacity="0.8" transform="rotate(-15,58,213)"/>
-            <ellipse cx="540" cy="258" rx="42" ry="28" fill="#0E2A18" opacity="0.9"/>
-            <line x1="542" y1="240" x2="544" y2="220" stroke="#1A3A10" stroke-width="4"/>
-            <ellipse cx="544" cy="218" rx="18" ry="10" fill="#0E2818" opacity="0.8" transform="rotate(15,544,218)"/>
-            <!-- Moon reflection -->
-            <ellipse cx="520" cy="310" rx="60" ry="15" fill="#F0E8C0" opacity="0.08"/>
-            <!-- Wave lines -->
-            <path d="M0 282 Q150 275 300 283 Q450 291 600 280" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <text x="240" y="160" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">FLORES SEA VIEWS</text>
-          </svg>
-          <div class="r3-resort-rank">4</div>
-        </div>
-        <div class="r3-resort-body">
-          <div>
-            <div class="r3-resort-brand">Sudamala Resorts · 5-star</div>
-            <div class="r3-resort-name">Sudamala Resort<br>Komodo, Labuan Bajo</div>
-            <div class="r3-resort-location">Pantai Pede · 5 min from LBJ airport</div>
-            <p class="r3-resort-desc">A newer, architecturally striking resort that celebrates Flores culture through its distinctive Wae Rebo-inspired roofline and custom marine and cultural tilework. 84 boutique suites and villas with Flores Sea panoramas. Closest of the four resorts to the airport and to Labuan Bajo's town centre, making transfers and pre-trip errands seamless. Exceptional breakfast service and outstanding staff consistently earn top reviews. A strong choice if AYANA or TA'AKTANA are sold out or if proximity to town matters.</p>
-            <div class="r3-resort-highlights">
-              <span class="r3-highlight-tag">5 min from airport</span>
-              <span class="r3-highlight-tag">Walking distance to town</span>
-              <span class="r3-highlight-tag">Wae Rebo-style roof</span>
-              <span class="r3-highlight-tag">84 suites + villas</span>
-              <span class="r3-highlight-tag">Flores Sea views</span>
-              <span class="r3-highlight-tag">Beachfront</span>
-              <span class="r3-highlight-tag">Highly rated breakfast</span>
-              <span class="r3-highlight-tag">New build</span>
-            </div>
-          </div>
-          <div>
-            <div class="r3-resort-meta">
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Nightly rate (est.)</div>
-                <div class="r3-meta-value r3-price">$120–$280</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">2-night stay (est.)</div>
-                <div class="r3-meta-value r3-price">$240–$560</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Best room for couples</div>
-                <div class="r3-meta-value">Deluxe Sea View Suite</div>
-              </div>
-              <div class="r3-meta-item">
-                <div class="r3-meta-label">Best for</div>
-                <div class="r3-meta-value">Easy town access, new build</div>
-              </div>
-            </div>
-            <div class="r3-resort-cta">
-              <a href="https://www.sudamalaresorts.com/komodo" target="_blank" class="r3-btn-primary">View resort</a>
-              <a href="https://www.booking.com/hotel/id/sudamala-resort-komodo-labuan-bajo.html" target="_blank" class="r3-btn-outline">Check rates</a>
-            </div>
-          </div>
+    <!-- Flights -->
+    <div class="res-card pending">
+      <div class="res-card-left">
+        <div class="res-card-icon">✈️</div>
+        <div class="res-card-phase">Flights</div>
+      </div>
+      <div class="res-card-body">
+        <div class="res-card-title">All Flights</div>
+        <div class="res-card-sub">LAX → ICN → DPS → LBJ (outbound) &middot; LBJ → SIN → LAX (return)</div>
+        <div class="res-card-dates">📅 Jul 23 (outbound) &middot; Aug 9 (return)</div>
+        <div class="res-card-meta">
+          <span class="res-meta-item">💳 ~$17,920–$26,000 est. for 2 passengers (Business Class)</span>
+          <span class="res-meta-item">⚠️ Book Aug–Sep 2026 (miles) or Jan–Mar 2027 (cash) &middot; Korean Air · Asiana · SQ38</span>
         </div>
       </div>
+      <div class="res-card-badge"><span class="pending-badge">⏳ Pending</span></div>
     </div>
 
-  </div><!-- /resort-grid -->
-</div><!-- /section -->
-
-
-<!-- COMPARISON TABLE -->
-<div class="r3-comparison-wrap">
-  <div class="r3-comparison-inner">
-    <div class="r3-section-eyebrow">Side by side</div>
-    <div class="r3-section-title">Quick comparison</div>
-
-    <table class="r3-comp-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>AYANA Komodo</th>
-          <th>TA'AKTANA</th>
-          <th>Plataran Komodo</th>
-          <th>Sudamala</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Overall rank</td>
-          <td class="r3-top-pick">★ #1 — Top pick</td>
-          <td><span class="r3-dot-sage">●</span> #2 — Most luxurious</td>
-          <td><span class="r3-dot-sage">●</span> #3 — Most romantic</td>
-          <td><span class="r3-dot-muted">●</span> #4 — Most convenient</td>
-        </tr>
-        <tr>
-          <td>Stars</td>
-          <td><span class="r3-dot-gold">●</span> 5-star</td>
-          <td><span class="r3-dot-gold">●</span> 5-star Luxury Collection</td>
-          <td><span class="r3-dot-gold">●</span> 5-star boutique</td>
-          <td><span class="r3-dot-sage">●</span> 5-star</td>
-        </tr>
-        <tr>
-          <td>Nightly rate</td>
-          <td class="r3-top-pick">$165–$280 / night</td>
-          <td>$320–$800 / night</td>
-          <td>$235–$550 / night</td>
-          <td>$120–$280 / night</td>
-        </tr>
-        <tr>
-          <td>2-night est. total</td>
-          <td class="r3-top-pick">~$330–$560</td>
-          <td>~$640–$1,600</td>
-          <td>~$470–$1,100</td>
-          <td>~$240–$560</td>
-        </tr>
-        <tr>
-          <td>Airport distance</td>
-          <td class="r3-top-pick">10 min drive</td>
-          <td>8 min drive</td>
-          <td>15 min drive + boat</td>
-          <td class="r3-top-pick">5 min drive</td>
-        </tr>
-        <tr>
-          <td>Beach access</td>
-          <td><span class="r3-dot-gold">●</span> Private beach + 250m jetty</td>
-          <td><span class="r3-dot-gold">●</span> Private beach</td>
-          <td><span class="r3-dot-gold">●</span> Secluded private cove</td>
-          <td><span class="r3-dot-sage">●</span> Beachfront</td>
-        </tr>
-        <tr>
-          <td>Dive/snorkel</td>
-          <td class="r3-top-pick">On-site dive club + manta ray tours</td>
-          <td><span class="r3-dot-sage">●</span> Snorkel, dive excursions</td>
-          <td><span class="r3-dot-sage">●</span> Snorkel off jetty, marine life</td>
-          <td><span class="r3-dot-muted">●</span> Tours arranged</td>
-        </tr>
-        <tr>
-          <td>Signature feature</td>
-          <td class="r3-top-pick">Rooftop sunset bar + 250m jetty</td>
-          <td><span class="r3-dot-gold">●</span> Overwater sea villas + butler</td>
-          <td><span class="r3-dot-gold">●</span> Best sunsets + seclusion</td>
-          <td><span class="r3-dot-sage">●</span> Town access + cultural design</td>
-        </tr>
-        <tr>
-          <td>Loyalty program</td>
-          <td><span class="r3-dot-sage">●</span> AYANA Miles</td>
-          <td class="r3-top-pick">Marriott Bonvoy (points bookable)</td>
-          <td><span class="r3-dot-muted">●</span> None</td>
-          <td><span class="r3-dot-muted">●</span> None</td>
-        </tr>
-        <tr>
-          <td>Best for Todd & Mai Do</td>
-          <td class="r3-top-pick">Best overall — dive gear, views, value</td>
-          <td><span class="r3-dot-gold">●</span> Most memorable splurge</td>
-          <td><span class="r3-dot-sage">●</span> Most romantic escape</td>
-          <td><span class="r3-dot-muted">●</span> Best if others are full</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-</div>
+</div><!-- /panel-res -->
 
-
-<!-- LOGISTICS -->
-<div class="r3-section" style="padding-top:0">
-  <div style="padding-top:64px">
-    <div class="r3-section-eyebrow">Planning notes</div>
-    <div class="r3-section-title">What to know before you book</div>
-  </div>
-  <div class="r3-logistics-grid">
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
-      <div class="r3-logistics-title">Arrive 1 night early</div>
-      <div class="r3-logistics-text">You arrive in Labuan Bajo July 29 to board Coralia on July 30. Use the evening to check in, explore the waterfront, and run any last-minute gear checks before the liveaboard departs the next morning.</div>
-    </div>
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <div class="r3-logistics-title">Book early — July is peak season</div>
-      <div class="r3-logistics-text">July is peak dry season and the most popular month to visit Labuan Bajo. AYANA and TA'AKTANA in particular sell out well in advance. Book as soon as you've confirmed your stopover city and flights — ideally 6–9 months ahead.</div>
-    </div>
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </div>
-      <div class="r3-logistics-title">Airport is 5–15 min away</div>
-      <div class="r3-logistics-text">Komodo Airport (LBJ) is small and very close to all resorts — most offer a complimentary shuttle. Plataran requires a short boat transfer from the harbour, so allow an extra 30 minutes on departure day when heading back to the airport.</div>
-    </div>
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <div class="r3-logistics-title">Coralia briefing & gear check</div>
-      <div class="r3-logistics-text">The Coralia team typically arranges a pre-departure briefing on the evening of July 29. Your resort concierge can arrange transport to the harbour (Labuan Bajo Port). Confirm pick-up time with the Coralia crew after booking.</div>
-    </div>
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-      </div>
-      <div class="r3-logistics-title">Marriott Bonvoy at TA'AKTANA</div>
-      <div class="r3-logistics-text">If you hold Marriott Bonvoy points, TA'AKTANA is bookable with points. An overwater sea villa typically requires ~50,000–80,000 points per night. This can significantly offset the premium pricing — worth checking your balance.</div>
-    </div>
-    <div class="r3-logistics-item">
-      <div class="r3-logistics-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
-      <div class="r3-logistics-title">Indonesia visa — 30 days on arrival</div>
-      <div class="r3-logistics-text">US citizens receive a 30-day visa on arrival at LBJ airport for $35 USD. No pre-approval needed. Your total trip (resort + liveaboard) is 12 days — well within the limit. Bring cash USD for the visa fee on arrival.</div>
-    </div>
-  </div>
-</div>
-
-<!-- BOOKING TIP -->
-<div class="r3-tip-bar">
-  <div class="r3-tip-bar-inner">
-    <span class="r3-tip-label">Our recommendation</span>
-    <span class="r3-tip-text">Book <strong>AYANA Komodo Waecicu Beach</strong> for 1 night (Jul 29). Best value, on-site dive club to test gear, and the rooftop bar delivers an unforgettable sunset before you board Coralia. If AYANA is unavailable, TA'AKTANA's overwater sea villa is worth every dollar for a special occasion.</span>
-  </div>
-</div>
-
-<footer>
-  Prepared for Todd & Mai Do Reimer · Coralia Liveaboard Invoice #6075 · Komodo & Sumbawa Trip 241 · July 30 – August 8, 2027<br>
-  All rates are estimates based on current market data and are subject to change. Book directly with resorts or via Booking.com / Marriott Bonvoy for best rates.
-</footer>
-</div><!-- /panel-resorts -->
 
 
 <!-- ═══════ TAB 4: SEOUL LOCATIONS ═══════ -->
@@ -2463,7 +1479,7 @@ footer {
     <div class="itin-summary-chips">
       <span class="itin-chip">✈ LAX → ICN → DPS → LBJ</span>
       <span class="itin-chip">✈ LBJ → SIN → LAX</span>
-      <span class="itin-chip">🇰🇷 5 nights Seoul</span>
+      <span class="itin-chip">🇰🇷 ~3 nights Seoul</span>
       <span class="itin-chip">🌊 9 nights Coralia</span>
       <span class="itin-chip">Coralia Invoice #6075</span>
     </div>
@@ -2472,7 +1488,7 @@ footer {
   <!-- Status Bar -->
   <div class="itin-status-bar">
     <div class="itin-stat">
-      <div class="itin-stat-num" style="color:var(--seoul-phase)">5</div>
+      <div class="itin-stat-num" style="color:var(--seoul-phase)">~3</div>
       <div class="itin-stat-lbl">Nights Seoul</div>
     </div>
     <div class="itin-stat-div"></div>
@@ -2492,7 +1508,7 @@ footer {
     </div>
     <div class="itin-stat-div"></div>
     <div class="itin-stat">
-      <div class="itin-stat-num" style="color:var(--itin)">19</div>
+      <div class="itin-stat-num" style="color:var(--itin)">18</div>
       <div class="itin-stat-lbl">Days Total</div>
     </div>
   </div>
@@ -2575,7 +1591,7 @@ footer {
           <div class="itin-day-title">LAX → Seoul Incheon (ICN)</div>
           <div class="itin-day-detail">
             <strong>Airline:</strong> Korean Air / Asiana &middot; <strong>Class:</strong> Business &middot; <strong>Duration:</strong> ~13.5 hrs<br>
-            Depart Los Angeles, arrive Seoul the following morning (Jul 24 local time).
+            Depart Los Angeles (evening). Cross the International Date Line — arrive Seoul morning of <strong>Jul 25</strong> local time (typical for evening departure; Jul 24 possible if departing early afternoon).
           </div>
           <span class="itin-cost">💺 ~$3,500–$5,000 <span class="itin-cost-note">/ person · peak July</span></span>
           <span class="itin-pending">⏳ Book Aug–Sep 2026 (miles) · Jan–Mar 2027 (cash)</span>
@@ -2588,7 +1604,7 @@ footer {
       <div class="itin-phase-header">
         <div class="itin-phase-dot" style="background:var(--seoul-phase)"></div>
         <div class="itin-phase-title">🇰🇷 Seoul Stopover</div>
-        <div class="itin-phase-dates">Jul 23–28, 2027 · 5 Nights</div>
+        <div class="itin-phase-dates">~Jul 25–28, 2027 · ~3 Nights</div>
       </div>
 
       <div class="itin-note">
@@ -2598,9 +1614,9 @@ footer {
       <div class="itin-span" style="border-left: 4px solid var(--seoul-phase);">
         <div class="itin-span-header">
           <div class="itin-span-date-range" style="background:var(--seoul-light); border-right:1px solid var(--border);">
-            <div class="itin-span-nights" style="color:var(--seoul-phase)">5</div>
+            <div class="itin-span-nights" style="color:var(--seoul-phase)">~3</div>
             <div class="itin-span-nights-lbl">Nights</div>
-            <div class="itin-span-range-lbl">Jul 23–28</div>
+            <div class="itin-span-range-lbl">Jul 25–28</div>
           </div>
           <div class="itin-span-body">
             <span class="itin-day-tag tag-seoul">🇰🇷 Seoul</span>
@@ -2613,10 +1629,10 @@ footer {
           </div>
         </div>
         <ul class="itin-highlights" style="padding: 0 22px 16px 22px; border-top: 1px solid var(--border); margin-top: 0; padding-top: 14px;">
-          <li><strong>Day 1–2:</strong> Gyeongbokgung Palace, Bukchon Hanok Village, Insadong, Changdeokgung &amp; Secret Garden</li>
-          <li><strong>Day 3:</strong> Day trip option — DMZ &amp; JSA (Joint Security Area) tour</li>
-          <li><strong>Day 4:</strong> Hongdae, Mapo, Sinchon — street food, nightlife, art</li>
-          <li><strong>Day 5:</strong> Myeongdong shopping, N Seoul Tower (Namsan), Gangnam (optional)</li>
+          <li><strong>Day 1:</strong> Arrive &amp; recover — Gyeongbokgung Palace, Bukchon Hanok Village, Insadong</li>
+          <li><strong>Day 2:</strong> Changdeokgung &amp; Secret Garden, Myeongdong, N Seoul Tower (Namsan)</li>
+          <li><strong>Day 3:</strong> Hongdae street food &amp; nightlife &mdash; or DMZ / JSA day trip (optional)</li>
+          <li style="color:var(--muted);font-size:12px;">Note: ~3 nights based on Jul 23 evening departure from LAX; adjust if flying earlier in the day</li>
           <li><strong>Dining:</strong> Use CatchTable app to reserve Oncheonjip, Mongtan, and other popular spots in advance</li>
           <li><strong>Transport:</strong> T-Money card for subway; Kakao Taxi for late nights; Naver Maps for walking directions</li>
         </ul>
@@ -2706,10 +1722,11 @@ footer {
           <span class="itin-day-tag tag-lbj">🏝 Labuan Bajo</span>
           <div class="itin-day-title">Check In — Pre-Liveaboard Resort (1 Night)</div>
           <div class="itin-day-detail">
-            <strong>Top pick:</strong> AYANA Komodo Waecicu Beach (~$165–$280/night)<br>
+            <strong>✅ Confirmed:</strong> AYANA Komodo Waecicu Beach &middot; Deluxe Ocean View, King Bed, High Floor &middot; Conf# <strong>AB-4WENWDJS</strong><br>
+            Check-in 15:00 &middot; Check-out 12:00 &middot; ~US$199.34 incl. taxes (pay at hotel) &middot; Free cancel before Jul 22, 2027.<br>
             Rooftop bar with panoramic Komodo views. On-site dive club to test gear before boarding. Coralia briefing typically evening of Jul 29.
           </div>
-          <span class="itin-pending">⏳ Book resort — July is peak, book 6–9 months ahead</span>
+          <span class="itin-confirmed">✓ AYANA Komodo Conf# AB-4WENWDJS &mdash; 1 Night · Pay at Hotel · Cancel by Jul 22</span>
         </div>
       </div>
     </div>
@@ -2889,7 +1906,6 @@ footer {
     document.getElementById('panel-' + tab).classList.add('active');
     document.querySelector('.t-' + tab).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (tab === 'resorts') { initStars(); }
     if (tab === 'seoul-loc') { initSeoulMap(); }
   }
 
